@@ -1,19 +1,19 @@
-#define sonicTrigger P2_0
+#define Trigger P2_0
 #define echoPin P3_2
 #define lcdData P1
 #define CONTROL_PORT P2
 #define MOTORCLOCK P2_7
 #define MOTORDIRECTION P2_1
-#define WR 2 
-#define RD 3
-#define CE 4
-#define CD 5
-#define RST 6
+#define WRL 2 
+#define RDL 3
+#define CEL 4
+#define CDL 5
+#define RSTL 6
 
 #define LINES		128
 #define COLLUMS		160
 #define FONT_WIDTH	8
-#define GRAPHIC_AREA	(COLLUMS / FONT_WIDTH)
+#define GRAPHIC_AREA	(COLLUMS / FONT_WIDTH) 
 #define TEXT_AREA		(COLLUMS / FONT_WIDTH)
 #define GRAPHIC_SIZE	(GRAPHIC_AREA * LINES)
 #define TEXT_SIZE		(TEXT_AREA * (LINES/8))
@@ -72,8 +72,8 @@
 #define WHITE	0x01
 #define BLACK	0x00
 
-float durationToCm(int timeInMicro);
-void SendTriggerPulse();
+float durationToCm(long timeInMicro);
+void sendPulse();
 void delay(int x);
 void InitTimer0();
 void resetTimer0();
@@ -85,5 +85,12 @@ void newInit();
 void LCDSetPixel(unsigned char x, unsigned char y, unsigned char color);
 void SetAddressPointer(unsigned int address);
 void clockMotor() ;
-void lastInitTry();
+void InitLCD();
 void WriteDisplayData(unsigned char x);
+void clearScreen();
+void SetLCDPixelAXIS(float x, float y);
+void ClearLCDPixelAXIS(float x, float y);
+void CreateAxis();
+void setLCDPixel(int x , int y,int line);
+void bitMap(int x,int y, unsigned char tmp);
+void SplashArt();

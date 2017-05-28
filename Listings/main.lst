@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2017 22:32:14 PAGE 1   
+C51 COMPILER V9.56.0.0   MAIN                                                              05/09/2017 03:45:16 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
@@ -11,267 +11,361 @@ line level    source
    1          #include <REG8051_H.h>
    2          #include <define.h>
    3          #include <math.h>
-   4          float distances[200] = { 0 };
-   5          int i = 0;
+   4          unsigned long duration = 0;
+   5          float distances = 0;
    6          float angle = 0;
-   7          int TH0TL0 = 0;
-   8          bit running = 0;
-   9          void t0() interrupt 1 {
-  10   1        
-  11   1        while(P3_2==1);
-  12   1        if(P3_2 == 0 && TH0 * 256 + TL0 != 0) {
-  13   2        TH0TL0 = TH0 * 256 + TL0; //combining both registers
-  14   2        P0=TL0;
-  15   2        distances[i++] = durationToCm(TH0TL0);
-  16   2          if(MOTORDIRECTION == 0)
-  17   2            angle += 1.8;
-  18   2          else 
-  19   2            angle -=1.8;
-  20   2        resetTimer0();
-  21   2        }
-  22   1              
-  23   1      }
-  24          void main() {
-  25   1        
-  26   1        delay(100);
-  27   1        MOTORDIRECTION = 0;
-  28   1        P3=0;
-  29   1        P0=0;
-  30   1        InitTimer0();
-  31   1        delay(1000);
-  32   1        
-  33   1        while(1){
-  34   2          SendTriggerPulse();
-  35   2          delay(100);
-  36   2          LCDSetPixel(distances[i - 1]  * cos(angle - 1.8),distances[i - 1]  * sin(angle - 1.8),WHITE); // X = dis
-             -tance * COS(angle) | Y = distance * SIN(ANGLE) 
-  37   2          if(angle >=360 && MOTORDIRECTION == 0)
-  38   2            MOTORDIRECTION = 1;
-  39   2          else if (angle <=0 && MOTORDIRECTION == 1)
-  40   2            MOTORDIRECTION = 0;
-  41   2          clockMotor(); //Each clock advances the motor 1.8 degrees
-  42   2        }
-  43   1      }
-  44          
-  45          void clockMotor() {
-  46   1        MOTORCLOCK = 0;
-  47   1        delay(100);
-  48   1        MOTORCLOCK = 1;
-  49   1        delay(100);
-  50   1        MOTORCLOCK = 0;
-  51   1      }
-  52          void lastInitTry(){
-  53   1        delay(100);
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2017 22:32:14 PAGE 2   
+   7          float myX,myY;
+   8          unsigned int counter =0;
+   9          int numberOfScans = 0;
+  10          void t0(void) interrupt 1 {
+  11   1        counter++;
+  12   1        TF0=0;
+  13   1      
+  14   1      }
+  15          void main() {
+  16   1        
+  17   1        delay(10);
+  18   1        SCON = 0x50;
+  19   1        TMOD |= 0x20;
+  20   1        TH1=0xFA;
+  21   1        TR1 = 1;
+  22   1        TI = 1;
+  23   1        PCON |= 0x80;
+  24   1        
+  25   1        ET0 = 1;
+  26   1        EA = 1;
+  27   1        TMOD = (TMOD & 0xF0) | 0x90;
+  28   1        
+  29   1        CONTROL_PORT |= ((1<<RSTL) |(1<<CDL)|(1<<RDL)|(1<<WRL)|(1<<CEL));
+  30   1        InitLCD();
+  31   1        clearScreen();
+  32   1        CreateAxis();
+  33   1        SetLCDPixelAXIS(0,0);
+  34   1        MOTORDIRECTION = 0;
+  35   1        delay(3000);
+  36   1        while(numberOfScans < 2) {
+  37   2          counter = 0;
+  38   2          TH0 = 0;
+  39   2          TL0=0;
+  40   2          TR0 = 1;
+  41   2          delay(10);
+  42   2          sendPulse();
+  43   2          while(!INT0);
+  44   2          while(INT0);
+  45   2          duration = (unsigned long)((TH0<<8) | TL0| ((unsigned long)counter<<16));
+  46   2          distances = durationToCm(duration);
+  47   2          distances = distances / 2;
+  48   2          distances = distances / 100;
+  49   2          SetLCDPixelAXIS(distances  * cos(angle * 3.141592653589793 / 180.0),distances * sin(angle * 3.1415926535
+             -89793 / 180.0));// X = distance * COS(angle) | Y = distance * SIN(ANGLE) 
+  50   2          clockMotor();
+  51   2        }
+  52   1        P0 = 0x00;
+  53   1        bitMap(0,0,0xC0);
+C51 COMPILER V9.56.0.0   MAIN                                                              05/09/2017 03:45:16 PAGE 2   
 
-  54   1        CONTROL_PORT |= (1<<RST);
-  55   1        delay(100);
-  56   1        CONTROL_PORT &= ~(1<<RST);
-  57   1        delay(100);
-  58   1        CONTROL_PORT |= (1<<RST);
-  59   1        delay(100);
-  60   1        P0++;
-  61   1        //TEXT HOME ADDRESS
-  62   1        WriteData(0xFF);
-  63   1        P0++;
-  64   1        WriteData(0x7F);
-  65   1        P0++;
-  66   1        WriteCommand(0x40);
-  67   1        P0++;
-  68   1        //TEXT AREA SET
-  69   1        WriteData(0x1A); //TRY 1A later 0x1A / 0x14
-  70   1        P0++; //5
-  71   1        WriteData(0x00);
-  72   1        P0++;
-  73   1        WriteCommand(0x41);
-  74   1        P0++;
-  75   1        //GRAPHIC HOME ADDRESS
-  76   1        WriteData(0x00);
-  77   1        P0++;
-  78   1        WriteData(0x00);
-  79   1        P0++;
-  80   1        WriteCommand(0x42);
-  81   1        //GRAPHIC AREA SET
-  82   1        WriteData(0x14);
-  83   1        P0++; //10
-  84   1        WriteData(0x00);
-  85   1        P0++;
-  86   1        WriteCommand(0x43);
-  87   1        //SET MODE = EXOR
-  88   1        WriteCommand(0x81);
-  89   1        P0++;
-  90   1        SetAddressPointer(0x0000);
-  91   1        //SET DISPLAY MODE
-  92   1        WriteCommand(0x98);
-  93   1        P0++;
-  94   1      
-  95   1      
-  96   1      
-  97   1      
-  98   1      }
-  99          float durationToCm(int timeInMicro) {
- 100   1        return(timeInMicro * 0.034/2); //58.0 for cm | 148.0 for inches
- 101   1      }
- 102          
- 103          void SendTriggerPulse() {
- 104   1        sonicTrigger = 0;
- 105   1        delay(1);
- 106   1        sonicTrigger = 1;
- 107   1        delay(10);
- 108   1        sonicTrigger = 0;
- 109   1      }
- 110          void delay(int x) { // 521ms delay
- 111   1        int y;
- 112   1        for(y=0;y<x*10;y++);
- 113   1      }
- 114          //
- 115          void InitTimer0() {
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2017 22:32:14 PAGE 3   
+  54   1        bitMap(0,1,0xA0);
+  55   1        bitMap(0,2,0x90);
+  56   1        bitMap(0,3,0x88);
+  57   1        bitMap(0,4,0x88);
+  58   1        bitMap(0,5,0x90);
+  59   1        bitMap(0,6,0xA0);
+  60   1        bitMap(0,7,0xC0);
+  61   1        while(1){
+  62   2          P0_1 = RD;
+  63   2        }
+  64   1      
+  65   1      
+  66   1      }
+  67          void clockMotor() {
+  68   1        MOTORCLOCK = 0;
+  69   1        delay(10);
+  70   1        MOTORCLOCK = 1;
+  71   1        delay(100);
+  72   1        MOTORCLOCK = 0;
+  73   1        if(MOTORDIRECTION == 0) 
+  74   1          angle +=0.9;
+  75   1        else
+  76   1          angle -= 0.9;
+  77   1        
+  78   1        if(angle >=360 && MOTORDIRECTION == 0){
+  79   2                MOTORDIRECTION = 1;
+  80   2                numberOfScans++;
+  81   2        }
+  82   1              else if (angle <=0 && MOTORDIRECTION == 1) {
+  83   2                MOTORDIRECTION = 0;
+  84   2                numberOfScans++;
+  85   2            }
+  86   1      
+  87   1      }
+  88          void InitLCD(){
+  89   1        CONTROL_PORT |= (1<<RSTL);
+  90   1        delay(100);
+  91   1        CONTROL_PORT &= ~(1<<RSTL);
+  92   1        delay(100);
+  93   1        CONTROL_PORT |= (1<<RSTL);
+  94   1        delay(100);
+  95   1        P0++;
+  96   1        //TEXT HOME ADDRESS
+  97   1        WriteData(0x00);
+  98   1        P0++;
+  99   1        WriteData(0x80);
+ 100   1        P0++;
+ 101   1        WriteCommand(0x40);
+ 102   1        P0++;
+ 103   1        //TEXT AREA SET
+ 104   1        WriteData(0x14); //TRY 1A later 0x1A / 0x14
+ 105   1        P0++; //5
+ 106   1        WriteData(0x00);
+ 107   1        P0++;
+ 108   1        WriteCommand(0x41);
+ 109   1        P0++;
+ 110   1        //GRAPHIC HOME ADDRESS
+ 111   1        WriteData(0x00);
+ 112   1        P0++;
+ 113   1        WriteData(0x00);
+ 114   1        P0++;
+ 115   1        WriteCommand(0x42);
+C51 COMPILER V9.56.0.0   MAIN                                                              05/09/2017 03:45:16 PAGE 3   
 
- 116   1        TMOD = 0x09;
- 117   1        TH0 = 0;
- 118   1        TL0 = 0;
- 119   1        TCON = 0x10;
- 120   1        IE = 0x82;
- 121   1      }
- 122          
- 123          void resetTimer0() { //not sure if thats the only thing I need to do
- 124   1        TH0 = 0;
- 125   1        TL0 = 0;
- 126   1        running = 0;
- 127   1      }
- 128          
- 129          void WriteData(unsigned char inputData) {
- 130   1        while(!(CheckStatus() & 0x03));   //Check if is possible to write a command
- 131   1        lcdData = inputData;
- 132   1        CONTROL_PORT &= ~(1<<CD);
- 133   1        CONTROL_PORT &= ~(1<<WR);
- 134   1        CONTROL_PORT |= (1<<RD);
- 135   1        CONTROL_PORT &= ~(1<<CE);
- 136   1        delay(1);
- 137   1        CONTROL_PORT |= (1<<CE);
- 138   1      }
- 139          
- 140          
- 141          unsigned char ReadData() {
- 142   1        unsigned char temp;
- 143   1        CONTROL_PORT &= ~(1<<CD);
- 144   1        CONTROL_PORT |= (1<<WR);  
- 145   1        CONTROL_PORT &= ~(1<<RD);
- 146   1        CONTROL_PORT &= ~(1<<CE);
- 147   1        delay(1); //Delay of 4*3 CPU cycles
- 148   1        temp = lcdData;
- 149   1        CONTROL_PORT |= (1<<CE);
- 150   1        return temp;
- 151   1      }
- 152          void WriteCommand(unsigned char commandD){
- 153   1        while(!(CheckStatus() & 0x03));   //Check if is possible to write a command
- 154   1        lcdData = commandD;
- 155   1        CONTROL_PORT |= (1<<CD);
- 156   1        CONTROL_PORT &= ~(1<<WR);
- 157   1        CONTROL_PORT |= (1<<RD);
- 158   1        CONTROL_PORT &= ~(1<<CE);
- 159   1        delay(1);
- 160   1        CONTROL_PORT |= (1<<CE);
- 161   1      }
- 162          
- 163          unsigned char CheckStatus() {
- 164   1        unsigned char temp;
- 165   1        CONTROL_PORT |= (1<<CD);
- 166   1        CONTROL_PORT &= ~(1<<RD);
- 167   1        CONTROL_PORT |= (1<<WR);
- 168   1        CONTROL_PORT &= ~(1<<CE);
- 169   1        delay(1); //Delay of 4*3 CPU cycles
- 170   1        temp = lcdData;
- 171   1        CONTROL_PORT |= (1<<CE);
- 172   1        return temp;
- 173   1      }
- 174          
- 175          
- 176          void newInit(){
- 177   1        
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2017 22:32:14 PAGE 4   
+ 116   1        //GRAPHIC AREA SET
+ 117   1        WriteData(0x14);
+ 118   1        P0++; //10
+ 119   1        WriteData(0x00);
+ 120   1        P0++;
+ 121   1        WriteCommand(0x43);
+ 122   1        //SET MODE = EXOR
+ 123   1        WriteCommand(0x81);
+ 124   1        P0++;
+ 125   1        //SET DISPLAY MODE
+ 126   1        WriteCommand(0x98);
+ 127   1        P0++;
+ 128   1      
+ 129   1      
+ 130   1      
+ 131   1      
+ 132   1      }
+ 133          float durationToCm(long timeInMicro) {
+ 134   1        return(timeInMicro * 0.034 / 2); //58.0 for cm | 148.0 for inches
+ 135   1      }
+ 136          
+ 137          void sendPulse() {
+ 138   1        Trigger = 0;
+ 139   1        Trigger = 1;
+ 140   1        delay(1);
+ 141   1        Trigger = 0;
+ 142   1      }
+ 143          void delay(int x) { // 521ms delay
+ 144   1        int y;
+ 145   1        for(y=0;y<x*10;y++);
+ 146   1      }
+ 147          void WriteData(unsigned char inputData) {
+ 148   1        //while(!(CheckStatus() & 0x03));   //Check if is possible to write a command
+ 149   1        CONTROL_PORT |= (1<<RDL);
+ 150   1        CONTROL_PORT &= ~(1<<CDL);
+ 151   1        CONTROL_PORT &= ~((1<<CEL) | (1<<WRL));
+ 152   1        lcdData = inputData;
+ 153   1        CONTROL_PORT |= ((1<<CEL) | (1<<WRL));
+ 154   1        CONTROL_PORT |= (1<<CDL);
+ 155   1        delay(1);
+ 156   1      }
+ 157          
+ 158          
+ 159          unsigned char ReadData() {
+ 160   1        unsigned char temp;
+ 161   1        while(!(CheckStatus() & 0x03));
+ 162   1        CONTROL_PORT |= (1<<WRL);
+ 163   1        CONTROL_PORT &= ~(1<<CDL);
+ 164   1        CONTROL_PORT &= ~((1<<CEL) | (1<<RDL));
+ 165   1        temp = lcdData;
+ 166   1        CONTROL_PORT |= ((1<<CEL) | (1<<RDL));
+ 167   1        CONTROL_PORT |= (1<<CDL);
+ 168   1        return temp; 
+ 169   1      }
+ 170          void WriteCommand(unsigned char commandD){
+ 171   1        //while(!(CheckStatus() & 0x03));   //Check if is possible to write a command
+ 172   1        CONTROL_PORT |= (1<<RDL);
+ 173   1        CONTROL_PORT |= (1<<CDL);
+ 174   1        CONTROL_PORT &= ~((1<<CEL) | (1<<WRL));
+ 175   1        lcdData = commandD;
+ 176   1        CONTROL_PORT |= ((1<<CEL) | (1<<WRL));
+ 177   1        CONTROL_PORT &= ~(1<<CDL);
+C51 COMPILER V9.56.0.0   MAIN                                                              05/09/2017 03:45:16 PAGE 4   
 
- 178   1        CONTROL_PORT &= ~(1 << RST);
- 179   1        delay(100);
- 180   1        CONTROL_PORT |= (1 << RST);
- 181   1        delay(100);
- 182   1        SetAddressPointer(TEXT_HOME);
- 183   1        WriteData(GRAPHIC_HOME & 0xFF);
- 184   1        WriteData(GRAPHIC_HOME >> 8);
- 185   1        WriteCommand(SET_GRAPHIC_HOME_ADDRESS);
- 186   1        P0++;
- 187   1        WriteData(GRAPHIC_AREA);
- 188   1        WriteData(0x00);
- 189   1        WriteCommand(SET_GRAPHIC_AREA);
- 190   1        P0++;
- 191   1        WriteData(TEXT_HOME);
- 192   1        WriteData(TEXT_HOME >> 8);
- 193   1        WriteCommand(SET_TEXT_HOME_ADDRESS);
- 194   1        P0++;
- 195   1        WriteData(TEXT_AREA);
- 196   1        WriteData(0x00);
- 197   1        WriteCommand(SET_TEXT_AREA);
- 198   1        P0++; //8
- 199   1        /*
- 200   1        WriteData(OFFSET_REGISTER);
- 201   1        WriteData(0x00);
- 202   1        WriteCommand(SET_OFFSET_REGISTER);
- 203   1        */
- 204   1        P0++;
- 205   1        WriteCommand(DISPLAY_MODE  | GRAPHIC_DISPLAY_ON   | TEXT_DISPLAY_ON /*| T6963_CURSOR_DISPLAY_ON*/);
- 206   1        P0++; //10
- 207   1        WriteCommand(MODE_SET_OR);
- 208   1        P0++;
- 209   1      }
- 210          
- 211          
- 212          void LCDSetPixel(unsigned char x, unsigned char y, unsigned char color)
- 213          {
- 214   1        unsigned char tmp;
- 215   1        unsigned int address;
- 216   1      
- 217   1        address = GRAPHIC_HOME + (x / FONT_WIDTH) + (GRAPHIC_AREA * y);
- 218   1        
- 219   1        P0++; //8
- 220   1        SetAddressPointer(address);
- 221   1        P0++; //13
- 222   1        WriteCommand(DATA_READ_AND_NONVARIABLE);
- 223   1        P0++;  //14
- 224   1        tmp = ReadData();
- 225   1        P0++; //15
- 226   1        if(color)
- 227   1            tmp |= (1 <<  (FONT_WIDTH - 1 - (x % FONT_WIDTH)));
- 228   1        else
- 229   1          tmp &= ~(1 <<  (FONT_WIDTH - 1 - (x % FONT_WIDTH)));
- 230   1        P0++;//16
- 231   1        WriteDisplayData(tmp);
- 232   1        P0++;//17
- 233   1      }
- 234          void WriteDisplayData(unsigned char x)
- 235          {
- 236   1        WriteData(x);
- 237   1        WriteCommand(DATA_WRITE_AND_INCREMENT);
- 238   1      }
- 239          
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2017 22:32:14 PAGE 5   
+ 178   1        delay(1);
+ 179   1      }
+ 180          
+ 181          unsigned char CheckStatus() {
+ 182   1        unsigned char temp;
+ 183   1        CONTROL_PORT |= (1<<WRL);
+ 184   1        CONTROL_PORT |= (1<<CDL);
+ 185   1        CONTROL_PORT &= ~((1<<CEL) | (1<<RDL));
+ 186   1        delay(2);
+ 187   1        temp = lcdData;
+ 188   1        CONTROL_PORT |= ((1<<CEL) | (1<<RDL));
+ 189   1        CONTROL_PORT &= ~(1<<CDL);
+ 190   1        return temp;
+ 191   1      }
+ 192          
+ 193          
+ 194          
+ 195          void WriteDisplayData(unsigned char x)
+ 196          {
+ 197   1        WriteData(x);
+ 198   1        WriteCommand(DATA_WRITE_AND_INCREMENT);
+ 199   1      }
+ 200          
+ 201          void SetAddressPointer(unsigned int address)
+ 202          {
+ 203   1        WriteData(address & 0xFF);
+ 204   1        WriteData(address >> 8);
+ 205   1        WriteCommand(0x24);
+ 206   1      }
+ 207          void clearScreen() {
+ 208   1        unsigned int counter = 0x20;
+ 209   1        P0 = 0x01;
+ 210   1        SetAddressPointer(0x0000);
+ 211   1        WriteCommand(0xB0);
+ 212   1        for (counter = 0; counter < 0xffff; counter++) 
+ 213   1        { 
+ 214   2          WriteData(0);    // fill everything with zeros 
+ 215   2         } 
+ 216   1        WriteCommand(0xB2);
+ 217   1        
+ 218   1      }
+ 219          
+ 220          void SetLCDPixelAXIS(float x, float y)
+ 221          {
+ 222   1        int addr;
+ 223   1        unsigned int Truex;
+ 224   1        unsigned int Truey;
+ 225   1        unsigned char tmp = 0;
+ 226   1        Truex = x;
+ 227   1        Truey = y;
+ 228   1        
+ 229   1        Truex += 80;
+ 230   1        Truey = 64 - Truey;
+ 231   1        /*
+ 232   1        x = x - Truex;
+ 233   1        y = y - Truey;
+ 234   1        if(x>=0.5)
+ 235   1          Truex++;
+ 236   1        if(y>=0.5)
+ 237   1          Truey++;
+ 238   1        */
+ 239   1        addr = 0x0000 + (Truex / 8) + (0x14 * Truey);
+C51 COMPILER V9.56.0.0   MAIN                                                              05/09/2017 03:45:16 PAGE 5   
 
- 240          void SetAddressPointer(unsigned int address)
- 241          {
- 242   1        WriteData(address & 0xFF);
- 243   1        WriteData(address >> 8);
- 244   1        WriteCommand(0x24);
- 245   1      }
+ 240   1        WriteData(addr & 0xFF);
+ 241   1        WriteData(addr >> 8);
+ 242   1        WriteCommand(0x24);
+ 243   1        tmp |= (1 <<  (8 - 1 - (Truex % 8)));
+ 244   1        WriteData(tmp);
+ 245   1        WriteCommand(DATA_WRITE_AND_INCREMENT);
+ 246   1      }
+ 247          
+ 248          void ClearLCDPixelAXIS(float x, float y)
+ 249          {
+ 250   1         int addr;
+ 251   1        unsigned int Truex;
+ 252   1        unsigned int Truey;
+ 253   1        unsigned char tmp = 0;
+ 254   1        Truex = x;
+ 255   1        Truey = y;
+ 256   1        
+ 257   1        Truex += 80;
+ 258   1        Truey = 64 - Truey;
+ 259   1        /*
+ 260   1        x = x - Truex;
+ 261   1        y = y - Truey;
+ 262   1        if(x>=0.5)
+ 263   1          Truex++;
+ 264   1        if(y>=0.5)
+ 265   1          Truey++;
+ 266   1        */
+ 267   1        addr = 0x0000 + (Truex / 8) + (0x14 * Truey);
+ 268   1        WriteData(addr & 0xFF);
+ 269   1        WriteData(addr >> 8);
+ 270   1        WriteCommand(0x24);
+ 271   1        tmp &= ~(1 <<  (8 - 1 - (Truex % 8)));
+ 272   1        WriteData(tmp);
+ 273   1        WriteCommand(DATA_WRITE_AND_INCREMENT);
+ 274   1      }
+ 275          void setLCDPixel(int x , int y,int line) {
+ 276   1        int addr;
+ 277   1        char tmp = 0;
+ 278   1        addr = 0x0000 + (x / 8) + (0x14 * y);
+ 279   1        WriteData(addr & 0xFF);
+ 280   1        WriteData(addr >> 8);
+ 281   1        WriteCommand(0x24);
+ 282   1        tmp |= (1 <<  (8 - 1 - (x % 8)));
+ 283   1        if(line == 1){
+ 284   2          if(x % 8 == 0)
+ 285   2          tmp |= 0x7f;
+ 286   2          else
+ 287   2            tmp =0xff;
+ 288   2          
+ 289   2        }
+ 290   1        else if(line == 2){
+ 291   2          tmp = 0x01;
+ 292   2          tmp |= (1 <<  (8 - 1 - (x % 8)));
+ 293   2        }
+ 294   1        WriteData(tmp);
+ 295   1        WriteCommand(DATA_WRITE_AND_INCREMENT);
+ 296   1      }
+ 297          void CreateAxis() {
+ 298   1        int i;
+ 299   1        for(i=0;i<128;i++)
+ 300   1          setLCDPixel(159,i,0);
+ 301   1        for(i=0;i<160;i++)
+C51 COMPILER V9.56.0.0   MAIN                                                              05/09/2017 03:45:16 PAGE 6   
+
+ 302   1          setLCDPixel(i,127,1);
+ 303   1        
+ 304   1        setLCDPixel(158,1,2);
+ 305   1        setLCDPixel(157,2,2);
+ 306   1        setLCDPixel(156,3,2);
+ 307   1        setLCDPixel(155,4,2);
+ 308   1        
+ 309   1        setLCDPixel(1,126,0);
+ 310   1        bitMap(1,126,0x40);
+ 311   1        bitMap(1,125,0x20);
+ 312   1        bitMap(1,124,0x10);
+ 313   1        //S
+ 314   1        setLCDPixel(0,0,1);
+ 315   1        setLCDPixel(0,1,0);
+ 316   1        setLCDPixel(0,2,0);
+ 317   1        setLCDPixel(0,3,0);
+ 318   1        setLCDPixel(0,4,1);
+ 319   1        setLCDPixel(7,5,0);
+ 320   1        setLCDPixel(7,6,0);
+ 321   1        setLCDPixel(0,7,1);
+ 322   1      
+ 323   1        
+ 324   1      }
+ 325          
+ 326          void bitMap(int x,int y,unsigned char tmp){
+ 327   1        unsigned int addr;
+ 328   1        addr = 0x0000 + (x / 8) + (0x14 * y);
+ 329   1        WriteData(addr & 0xFF);
+ 330   1        WriteData(addr >> 8);
+ 331   1        WriteCommand(0x24);
+ 332   1        WriteData(tmp);
+ 333   1        WriteCommand(DATA_WRITE_AND_INCREMENT);
+ 334   1        
+ 335   1        
+ 336   1        
+ 337   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1103    ----
+   CODE SIZE        =   1863    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    808       6
+   XDATA SIZE       =     24      46
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =      1    ----
+   BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
