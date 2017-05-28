@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : FreeWare ANSI-C Compiler
 ; Version 2.5.0 #1020 (May  8 2005)
-; This file generated Sun May 28 15:06:33 2017
+; This file generated Sun May 28 23:52:40 2017
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mmcs51 --model-large
@@ -656,7 +656,7 @@ _t0:
 ;	-----------------------------------------
 _main:
 	C$main.c$17$1$1 ==.
-;main.c:17: P0=0x00;
+;main.c:17: P0=0;
 ;     genAssign
 	mov	_P0,#0x00
 	C$main.c$18$1$1 ==.
@@ -738,7 +738,11 @@ _main:
 	mov	dptr,#0x03E8
 	lcall	_delay
 	C$main.c$37$1$1 ==.
-;main.c:37: while(numberOfScans < 2) {
+;main.c:37: P0=0xff;
+;     genAssign
+	mov	_P0,#0xFF
+	C$main.c$39$1$1 ==.
+;main.c:39: while(numberOfScans < 2) {
 00112$:
 ;     genAssign
 	mov	dptr,#_numberOfScans
@@ -759,54 +763,54 @@ _main:
 	jc	00130$
 	ljmp	00114$
 00130$:
-	C$main.c$38$2$2 ==.
-;main.c:38: counter = 0;
+	C$main.c$40$2$2 ==.
+;main.c:40: counter = 0;
 ;     genAssign
 	mov	dptr,#_counter
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	C$main.c$39$2$2 ==.
-;main.c:39: TH0 = 0;
+	C$main.c$41$2$2 ==.
+;main.c:41: TH0 = 0;
 ;     genAssign
 	mov	_TH0,#0x00
-	C$main.c$40$2$2 ==.
-;main.c:40: TL0=0;
+	C$main.c$42$2$2 ==.
+;main.c:42: TL0=0;
 ;     genAssign
 	mov	_TL0,#0x00
-	C$main.c$41$2$2 ==.
-;main.c:41: TR0 = 1;
+	C$main.c$43$2$2 ==.
+;main.c:43: TR0 = 1;
 ;     genAssign
 	setb	_TR0
-	C$main.c$44$2$2 ==.
-;main.c:44: delay(10);
+	C$main.c$46$2$2 ==.
+;main.c:46: delay(10);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x000A
 	lcall	_delay
-	C$main.c$45$2$2 ==.
-;main.c:45: sendPulse();
+	C$main.c$47$2$2 ==.
+;main.c:47: sendPulse();
 ;     genCall
 	lcall	_sendPulse
-	C$main.c$46$2$2 ==.
-;main.c:46: while(!INT0);
+	C$main.c$48$2$2 ==.
+;main.c:48: while(!INT0);
 00101$:
 ;     genIfx
 ;     genIfxJump
 ;	Peephole 111	removed ljmp by inverse jump logic
 	jnb	_INT0,00101$
 00131$:
-	C$main.c$47$2$2 ==.
-;main.c:47: while(INT0);
+	C$main.c$49$2$2 ==.
+;main.c:49: while(INT0);
 00104$:
 ;     genIfx
 ;     genIfxJump
 ;	Peephole 112.a	removed ljmp by inverse jump logic
 	jb	_INT0,00104$
 00132$:
-	C$main.c$48$2$2 ==.
-;main.c:48: duration = (unsigned long)((TH0<<8) | TL0| ((unsigned long)counter<<16));
+	C$main.c$50$2$2 ==.
+;main.c:50: duration = (unsigned long)((TH0<<8) | TL0| ((unsigned long)counter<<16));
 ;     genCast
 	mov	r2,_TH0
 ;     genLeftShift
@@ -868,8 +872,8 @@ _main:
 	mov	a,r6
 	movx	@dptr,a
 	inc	dptr
-	C$main.c$49$2$2 ==.
-;main.c:49: distances = durationToCm(duration);
+	C$main.c$51$2$2 ==.
+;main.c:51: distances = durationToCm(duration);
 ;     genCall
 ;	Peephole 225	removed redundant move to acc
 	mov	a,r7
@@ -882,8 +886,8 @@ _main:
 	mov	r3,dph
 	mov	r4,b
 	mov	r5,a
-	C$main.c$50$1$1 ==.
-;main.c:50: distances = distances / 2;
+	C$main.c$52$1$1 ==.
+;main.c:52: distances = distances / 2;
 ;     genIpush
 ;	Peephole 181	changed mov to clr
 	clr	a
@@ -896,8 +900,8 @@ _main:
 	push	acc
 	mov	a,#0x40
 	push	acc
-	C$main.c$51$1$1 ==.
-;main.c:51: distances = distances / 95;
+	C$main.c$53$1$1 ==.
+;main.c:53: distances = distances / 95;
 ;     genCall
 	mov	dpl,r2
 	mov	dph,r3
@@ -948,8 +952,8 @@ _main:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-	C$main.c$52$2$2 ==.
-;main.c:52: SX = distances * cosf(angle * PI / 180);
+	C$main.c$54$2$2 ==.
+;main.c:54: SX = distances * cosf(angle * PI / 180);
 ;     genAssign
 	mov	dptr,#_angle
 	movx	a,@dptr
@@ -1063,8 +1067,8 @@ _main:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-	C$main.c$53$2$2 ==.
-;main.c:53: SY = distances * sinf(angle * PI / 180);
+	C$main.c$55$2$2 ==.
+;main.c:55: SY = distances * sinf(angle * PI / 180);
 ;     genAssign
 	mov	dptr,#_angle
 	movx	a,@dptr
@@ -1152,8 +1156,8 @@ _main:
 	push	ar3
 	push	ar4
 	push	ar5
-	C$main.c$54$1$1 ==.
-;main.c:54: if(((SX >=0) && (SX <= 80) && ((SY >= -64) && (SY <=63)))) 
+	C$main.c$56$1$1 ==.
+;main.c:56: if(((SX >=-79) && (SX <= 80) && ((SY >= -64) && (SY <=63)))) 
 ;     genCall
 	mov	dpl,r6
 	mov	dph,r7
@@ -1191,11 +1195,9 @@ _main:
 ;	Peephole 181	changed mov to clr
 	clr	a
 	push	acc
-;	Peephole 181	changed mov to clr
-	clr	a
+	mov	a,#0x9E
 	push	acc
-;	Peephole 181	changed mov to clr
-	clr	a
+	mov	a,#0xC2
 	push	acc
 ;     genCall
 	mov	dpl,_main_sloc0_1_0
@@ -1322,8 +1324,8 @@ _main:
 ;	Peephole 109	removed ljmp by inverse jump logic
 	jnz	00108$
 00136$:
-	C$main.c$55$2$2 ==.
-;main.c:55: SetLCDPixelAXIS(SX,SY);
+	C$main.c$57$2$2 ==.
+;main.c:57: SetLCDPixelAXIS(SX,SY);
 ;     genAssign
 	mov	dptr,#_SetLCDPixelAXIS_PARM_2
 	mov	a,r2
@@ -1344,18 +1346,18 @@ _main:
 	mov	a,(_main_sloc0_1_0 + 3)
 	lcall	_SetLCDPixelAXIS
 00108$:
-	C$main.c$56$2$2 ==.
-;main.c:56: clockMotor();
+	C$main.c$58$2$2 ==.
+;main.c:58: clockMotor();
 ;     genCall
 	lcall	_clockMotor
 	ljmp	00112$
 00114$:
-	C$main.c$58$1$1 ==.
-;main.c:58: P0 = 0x00;
+	C$main.c$60$1$1 ==.
+;main.c:60: P0 = 0x00;
 ;     genAssign
 	mov	_P0,#0x00
-	C$main.c$60$1$1 ==.
-;main.c:60: bitMap(0,0,0xC0);
+	C$main.c$62$1$1 ==.
+;main.c:62: bitMap(0,0,0xC0);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	clr	a
@@ -1370,8 +1372,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$61$1$1 ==.
-;main.c:61: bitMap(0,1,0xA0);
+	C$main.c$63$1$1 ==.
+;main.c:63: bitMap(0,1,0xA0);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x01
@@ -1387,8 +1389,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$62$1$1 ==.
-;main.c:62: bitMap(0,2,0x90);
+	C$main.c$64$1$1 ==.
+;main.c:64: bitMap(0,2,0x90);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x02
@@ -1404,8 +1406,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$63$1$1 ==.
-;main.c:63: bitMap(0,3,0x88);
+	C$main.c$65$1$1 ==.
+;main.c:65: bitMap(0,3,0x88);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x03
@@ -1421,8 +1423,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$64$1$1 ==.
-;main.c:64: bitMap(0,4,0x88);
+	C$main.c$66$1$1 ==.
+;main.c:66: bitMap(0,4,0x88);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x04
@@ -1438,8 +1440,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$65$1$1 ==.
-;main.c:65: bitMap(0,5,0x90);
+	C$main.c$67$1$1 ==.
+;main.c:67: bitMap(0,5,0x90);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x05
@@ -1455,8 +1457,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$66$1$1 ==.
-;main.c:66: bitMap(0,6,0xA0);
+	C$main.c$68$1$1 ==.
+;main.c:68: bitMap(0,6,0xA0);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x06
@@ -1472,8 +1474,8 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$67$1$1 ==.
-;main.c:67: bitMap(0,7,0xC0);
+	C$main.c$69$1$1 ==.
+;main.c:69: bitMap(0,7,0xC0);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x07
@@ -1489,18 +1491,17 @@ _main:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$68$1$1 ==.
-;main.c:68: while(1){
+	C$main.c$70$1$1 ==.
+;main.c:70: while(1){
 00116$:
-	C$main.c$69$2$3 ==.
-;main.c:69: P0_1 = RD;
+	C$main.c$71$2$3 ==.
+;main.c:71: Trigger = 1;
 ;     genAssign
-	mov	c,_RD
-	mov	_P0_1,c
+	setb	_P2_0
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00116$
 00118$:
-	C$main.c$72$1$1 ==.
+	C$main.c$74$1$1 ==.
 	XG$main$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -1508,34 +1509,34 @@ _main:
 ;------------------------------------------------------------
 ;------------------------------------------------------------
 	G$clockMotor$0$0 ==.
-	C$main.c$73$1$1 ==.
-;main.c:73: void clockMotor() {
+	C$main.c$75$1$1 ==.
+;main.c:75: void clockMotor() {
 ;	-----------------------------------------
 ;	 function clockMotor
 ;	-----------------------------------------
 _clockMotor:
-	C$main.c$74$1$1 ==.
-;main.c:74: MOTORCLOCK = 0;
+	C$main.c$76$1$1 ==.
+;main.c:76: MOTORCLOCK = 0;
 ;     genAssign
 	clr	_P2_7
-	C$main.c$75$1$1 ==.
-;main.c:75: delay(10);
+	C$main.c$77$1$1 ==.
+;main.c:77: delay(10);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x000A
 	lcall	_delay
-	C$main.c$76$1$1 ==.
-;main.c:76: MOTORCLOCK = 1;
+	C$main.c$78$1$1 ==.
+;main.c:78: MOTORCLOCK = 1;
 ;     genAssign
 	setb	_P2_7
-	C$main.c$77$1$1 ==.
-;main.c:77: delay(100);
+	C$main.c$79$1$1 ==.
+;main.c:79: delay(100);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0064
 	lcall	_delay
-	C$main.c$78$1$1 ==.
-;main.c:78: MOTORCLOCK = 0;
+	C$main.c$80$1$1 ==.
+;main.c:80: MOTORCLOCK = 0;
 ;     genAssign
 	clr	_P2_7
 ;     genIfx
@@ -1543,8 +1544,8 @@ _clockMotor:
 ;	Peephole 112.a	removed ljmp by inverse jump logic
 	jb	_P2_1,00102$
 00118$:
-	C$main.c$80$1$1 ==.
-;main.c:80: angle +=0.9;
+	C$main.c$82$1$1 ==.
+;main.c:82: angle +=0.9;
 ;     genAssign
 	mov	dptr,#_angle
 	movx	a,@dptr
@@ -1596,8 +1597,8 @@ _clockMotor:
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00103$
 00102$:
-	C$main.c$82$1$1 ==.
-;main.c:82: angle -= 0.9;
+	C$main.c$84$1$1 ==.
+;main.c:84: angle -= 0.9;
 ;     genAssign
 	mov	dptr,#_angle
 	movx	a,@dptr
@@ -1647,8 +1648,8 @@ _clockMotor:
 	mov	a,r5
 	movx	@dptr,a
 00103$:
-	C$main.c$84$1$1 ==.
-;main.c:84: if(angle >=360 && MOTORDIRECTION == 0){
+	C$main.c$86$1$1 ==.
+;main.c:86: if(angle >=360 && MOTORDIRECTION == 0){
 ;     genAssign
 	mov	dptr,#_angle
 	movx	a,@dptr
@@ -1701,12 +1702,12 @@ _clockMotor:
 ;	Peephole 110	removed ljmp by inverse jump logic
 	jz	00108$
 00120$:
-	C$main.c$85$2$2 ==.
-;main.c:85: MOTORDIRECTION = 1;
+	C$main.c$87$2$2 ==.
+;main.c:87: MOTORDIRECTION = 1;
 ;     genAssign
 	setb	_P2_1
-	C$main.c$86$2$2 ==.
-;main.c:86: numberOfScans++;
+	C$main.c$88$2$2 ==.
+;main.c:88: numberOfScans++;
 ;     genAssign
 	mov	dptr,#_numberOfScans
 	movx	a,@dptr
@@ -1728,11 +1729,10 @@ _clockMotor:
 	inc	dptr
 	movx	@dptr,a
 ;	Peephole 112.b	changed ljmp to sjmp
-;	Peephole 251.b	replaced sjmp to ret with ret
-	ret
+	sjmp	00109$
 00108$:
-	C$main.c$88$1$1 ==.
-;main.c:88: else if (angle <=0 && MOTORDIRECTION == 1) {
+	C$main.c$90$1$1 ==.
+;main.c:90: else if (angle <=0 && MOTORDIRECTION == 1) {
 ;     genAssign
 	mov	dptr,#_angle
 	movx	a,@dptr
@@ -1773,21 +1773,20 @@ _clockMotor:
 	mov	a,r2
 ;     genIfxJump
 ;	Peephole 109	removed ljmp by inverse jump logic
-	jnz	00111$
+	jnz	00109$
 00121$:
 ;     genIfx
 ;     genIfxJump
 ;	Peephole 111	removed ljmp by inverse jump logic
-	C$main.c$89$2$3 ==.
-;main.c:89: MOTORDIRECTION = 0;
+	C$main.c$91$2$3 ==.
+;main.c:91: MOTORDIRECTION = 0;
 ;     genAssign
 ;	Peephole 250.a	using atomic test and clear
 	jbc	_P2_1,00122$
-;	Peephole 251.b	replaced sjmp to ret with ret
-	ret
+	sjmp	00109$
 00122$:
-	C$main.c$90$2$3 ==.
-;main.c:90: numberOfScans++;
+	C$main.c$92$2$3 ==.
+;main.c:92: numberOfScans++;
 ;     genAssign
 	mov	dptr,#_numberOfScans
 	movx	a,@dptr
@@ -1808,188 +1807,194 @@ _clockMotor:
 	addc	a,r3
 	inc	dptr
 	movx	@dptr,a
-00111$:
-	C$main.c$93$2$1 ==.
+00109$:
+	C$main.c$94$1$1 ==.
+;main.c:94: delay(500);
+;     genCall
+;	Peephole 182.b	used 16 bit load of dptr
+	mov	dptr,#0x01F4
+	C$main.c$96$1$1 ==.
 	XG$clockMotor$0$0 ==.
-	ret
+;	Peephole 253.b	replaced lcall/ret with ljmp
+	ljmp	_delay
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'InitLCD'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
 	G$InitLCD$0$0 ==.
-	C$main.c$94$2$1 ==.
-;main.c:94: void InitLCD(){
+	C$main.c$97$1$1 ==.
+;main.c:97: void InitLCD(){
 ;	-----------------------------------------
 ;	 function InitLCD
 ;	-----------------------------------------
 _InitLCD:
-	C$main.c$95$1$1 ==.
-;main.c:95: CONTROL_PORT |= (1<<RSTL);
+	C$main.c$98$1$1 ==.
+;main.c:98: CONTROL_PORT |= (1<<RSTL);
 ;     genOr
 	orl	_P2,#0x40
-	C$main.c$96$1$1 ==.
-;main.c:96: delay(100);
+	C$main.c$99$1$1 ==.
+;main.c:99: delay(100);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0064
 	lcall	_delay
-	C$main.c$97$1$1 ==.
-;main.c:97: CONTROL_PORT &= ~(1<<RSTL);
+	C$main.c$100$1$1 ==.
+;main.c:100: CONTROL_PORT &= ~(1<<RSTL);
 ;     genAnd
 	anl	_P2,#0xBF
-	C$main.c$98$1$1 ==.
-;main.c:98: delay(100);
+	C$main.c$101$1$1 ==.
+;main.c:101: delay(100);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0064
 	lcall	_delay
-	C$main.c$99$1$1 ==.
-;main.c:99: CONTROL_PORT |= (1<<RSTL);
+	C$main.c$102$1$1 ==.
+;main.c:102: CONTROL_PORT |= (1<<RSTL);
 ;     genOr
 	orl	_P2,#0x40
-	C$main.c$100$1$1 ==.
-;main.c:100: delay(100);
+	C$main.c$103$1$1 ==.
+;main.c:103: delay(100);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0064
 	lcall	_delay
-	C$main.c$101$1$1 ==.
-;main.c:101: P0++;
-;     genPlus
-;     genPlusIncr
-	inc	_P0
-	C$main.c$103$1$1 ==.
-;main.c:103: WriteData(0x00);
-;     genCall
-	mov	dpl,#0x00
-	lcall	_WriteData
 	C$main.c$104$1$1 ==.
 ;main.c:104: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$105$1$1 ==.
-;main.c:105: WriteData(0x80);
-;     genCall
-	mov	dpl,#0x80
-	lcall	_WriteData
 	C$main.c$106$1$1 ==.
-;main.c:106: P0++;
+;main.c:106: WriteData(0x00);
+;     genCall
+	mov	dpl,#0x00
+	lcall	_WriteData
+	C$main.c$107$1$1 ==.
+;main.c:107: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$107$1$1 ==.
-;main.c:107: WriteCommand(0x40);
-;     genCall
-	mov	dpl,#0x40
-	lcall	_WriteCommand
 	C$main.c$108$1$1 ==.
-;main.c:108: P0++;
+;main.c:108: WriteData(0x80);
+;     genCall
+	mov	dpl,#0x80
+	lcall	_WriteData
+	C$main.c$109$1$1 ==.
+;main.c:109: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
 	C$main.c$110$1$1 ==.
-;main.c:110: WriteData(0x14); //TRY 1A later 0x1A / 0x14
+;main.c:110: WriteCommand(0x40);
+;     genCall
+	mov	dpl,#0x40
+	lcall	_WriteCommand
+	C$main.c$111$1$1 ==.
+;main.c:111: P0++;
+;     genPlus
+;     genPlusIncr
+	inc	_P0
+	C$main.c$113$1$1 ==.
+;main.c:113: WriteData(0x14); //TRY 1A later 0x1A / 0x14
 ;     genCall
 	mov	dpl,#0x14
 	lcall	_WriteData
-	C$main.c$111$1$1 ==.
-;main.c:111: P0++; //5
+	C$main.c$114$1$1 ==.
+;main.c:114: P0++; //5
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$112$1$1 ==.
-;main.c:112: WriteData(0x00);
+	C$main.c$115$1$1 ==.
+;main.c:115: WriteData(0x00);
 ;     genCall
 	mov	dpl,#0x00
 	lcall	_WriteData
-	C$main.c$113$1$1 ==.
-;main.c:113: P0++;
-;     genPlus
-;     genPlusIncr
-	inc	_P0
-	C$main.c$114$1$1 ==.
-;main.c:114: WriteCommand(0x41);
-;     genCall
-	mov	dpl,#0x41
-	lcall	_WriteCommand
-	C$main.c$115$1$1 ==.
-;main.c:115: P0++;
+	C$main.c$116$1$1 ==.
+;main.c:116: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
 	C$main.c$117$1$1 ==.
-;main.c:117: WriteData(0x00);
+;main.c:117: WriteCommand(0x41);
 ;     genCall
-	mov	dpl,#0x00
-	lcall	_WriteData
+	mov	dpl,#0x41
+	lcall	_WriteCommand
 	C$main.c$118$1$1 ==.
 ;main.c:118: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$119$1$1 ==.
-;main.c:119: WriteData(0x00);
+	C$main.c$120$1$1 ==.
+;main.c:120: WriteData(0x00);
 ;     genCall
 	mov	dpl,#0x00
 	lcall	_WriteData
-	C$main.c$120$1$1 ==.
-;main.c:120: P0++;
+	C$main.c$121$1$1 ==.
+;main.c:121: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$121$1$1 ==.
-;main.c:121: WriteCommand(0x42);
+	C$main.c$122$1$1 ==.
+;main.c:122: WriteData(0x00);
+;     genCall
+	mov	dpl,#0x00
+	lcall	_WriteData
+	C$main.c$123$1$1 ==.
+;main.c:123: P0++;
+;     genPlus
+;     genPlusIncr
+	inc	_P0
+	C$main.c$124$1$1 ==.
+;main.c:124: WriteCommand(0x42);
 ;     genCall
 	mov	dpl,#0x42
 	lcall	_WriteCommand
-	C$main.c$123$1$1 ==.
-;main.c:123: WriteData(0x14);
+	C$main.c$126$1$1 ==.
+;main.c:126: WriteData(0x14);
 ;     genCall
 	mov	dpl,#0x14
 	lcall	_WriteData
-	C$main.c$124$1$1 ==.
-;main.c:124: P0++; //10
+	C$main.c$127$1$1 ==.
+;main.c:127: P0++; //10
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$125$1$1 ==.
-;main.c:125: WriteData(0x00);
+	C$main.c$128$1$1 ==.
+;main.c:128: WriteData(0x00);
 ;     genCall
 	mov	dpl,#0x00
 	lcall	_WriteData
-	C$main.c$126$1$1 ==.
-;main.c:126: P0++;
+	C$main.c$129$1$1 ==.
+;main.c:129: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
-	C$main.c$127$1$1 ==.
-;main.c:127: WriteCommand(0x43);
+	C$main.c$130$1$1 ==.
+;main.c:130: WriteCommand(0x43);
 ;     genCall
 	mov	dpl,#0x43
 	lcall	_WriteCommand
-	C$main.c$129$1$1 ==.
-;main.c:129: WriteCommand(0x81);
+	C$main.c$132$1$1 ==.
+;main.c:132: WriteCommand(0x81);
 ;     genCall
 	mov	dpl,#0x81
-	lcall	_WriteCommand
-	C$main.c$130$1$1 ==.
-;main.c:130: P0++;
-;     genPlus
-;     genPlusIncr
-	inc	_P0
-	C$main.c$132$1$1 ==.
-;main.c:132: WriteCommand(0x98);
-;     genCall
-	mov	dpl,#0x98
 	lcall	_WriteCommand
 	C$main.c$133$1$1 ==.
 ;main.c:133: P0++;
 ;     genPlus
 ;     genPlusIncr
 	inc	_P0
+	C$main.c$135$1$1 ==.
+;main.c:135: WriteCommand(0x98);
+;     genCall
+	mov	dpl,#0x98
+	lcall	_WriteCommand
+	C$main.c$136$1$1 ==.
+;main.c:136: P0++;
+;     genPlus
+;     genPlusIncr
+	inc	_P0
 00101$:
-	C$main.c$138$1$1 ==.
+	C$main.c$141$1$1 ==.
 	XG$InitLCD$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -1998,8 +2003,8 @@ _InitLCD:
 ;timeInMicro               Allocated with name '_durationToCm_timeInMicro_1_1'
 ;------------------------------------------------------------
 	G$durationToCm$0$0 ==.
-	C$main.c$139$1$1 ==.
-;main.c:139: float durationToCm(long timeInMicro) {
+	C$main.c$142$1$1 ==.
+;main.c:142: float durationToCm(long timeInMicro) {
 ;	-----------------------------------------
 ;	 function durationToCm
 ;	-----------------------------------------
@@ -2021,8 +2026,8 @@ _durationToCm:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-	C$main.c$140$1$1 ==.
-;main.c:140: return(timeInMicro * 0.034 / 2); //58.0 for cm | 148.0 for inches
+	C$main.c$143$1$1 ==.
+;main.c:143: return(timeInMicro * 0.034 / 2); //58.0 for cm | 148.0 for inches
 ;     genAssign
 	mov	dptr,#_durationToCm_timeInMicro_1_1
 	movx	a,@dptr
@@ -2099,7 +2104,7 @@ _durationToCm:
 	mov	b,r4
 	mov	a,r5
 00101$:
-	C$main.c$141$1$1 ==.
+	C$main.c$144$1$1 ==.
 	XG$durationToCm$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -2107,32 +2112,32 @@ _durationToCm:
 ;------------------------------------------------------------
 ;------------------------------------------------------------
 	G$sendPulse$0$0 ==.
-	C$main.c$143$1$1 ==.
-;main.c:143: void sendPulse() {
+	C$main.c$146$1$1 ==.
+;main.c:146: void sendPulse() {
 ;	-----------------------------------------
 ;	 function sendPulse
 ;	-----------------------------------------
 _sendPulse:
-	C$main.c$144$1$1 ==.
-;main.c:144: Trigger = 0;
-;     genAssign
-	clr	_P2_0
-	C$main.c$145$1$1 ==.
-;main.c:145: Trigger = 1;
-;     genAssign
-	setb	_P2_0
-	C$main.c$146$1$1 ==.
-;main.c:146: delay(1);
-;     genCall
-;	Peephole 182.b	used 16 bit load of dptr
-	mov	dptr,#0x0001
-	lcall	_delay
 	C$main.c$147$1$1 ==.
 ;main.c:147: Trigger = 0;
 ;     genAssign
 	clr	_P2_0
-00101$:
 	C$main.c$148$1$1 ==.
+;main.c:148: Trigger = 1;
+;     genAssign
+	setb	_P2_0
+	C$main.c$149$1$1 ==.
+;main.c:149: delay(1);
+;     genCall
+;	Peephole 182.b	used 16 bit load of dptr
+	mov	dptr,#0x0001
+	lcall	_delay
+	C$main.c$150$1$1 ==.
+;main.c:150: Trigger = 0;
+;     genAssign
+	clr	_P2_0
+00101$:
+	C$main.c$151$1$1 ==.
 	XG$sendPulse$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -2142,8 +2147,8 @@ _sendPulse:
 ;y                         Allocated with name '_delay_y_1_1'
 ;------------------------------------------------------------
 	G$delay$0$0 ==.
-	C$main.c$149$1$1 ==.
-;main.c:149: void delay(int x) { // 
+	C$main.c$152$1$1 ==.
+;main.c:152: void delay(int x) { // 
 ;	-----------------------------------------
 ;	 function delay
 ;	-----------------------------------------
@@ -2156,8 +2161,8 @@ _delay:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$main.c$151$1$1 ==.
-;main.c:151: for(y=0;y<x*10 * 3;y++);
+	C$main.c$154$1$1 ==.
+;main.c:154: for(y=0;y<x*10 * 3;y++);
 ;     genAssign
 	mov	dptr,#_delay_x_1_1
 	movx	a,@dptr
@@ -2205,7 +2210,7 @@ _delay:
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00101$
 00105$:
-	C$main.c$152$1$1 ==.
+	C$main.c$155$1$1 ==.
 	XG$delay$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -2214,8 +2219,8 @@ _delay:
 ;inputData                 Allocated with name '_WriteData_inputData_1_1'
 ;------------------------------------------------------------
 	G$WriteData$0$0 ==.
-	C$main.c$153$1$1 ==.
-;main.c:153: void WriteData(unsigned char inputData) {
+	C$main.c$156$1$1 ==.
+;main.c:156: void WriteData(unsigned char inputData) {
 ;	-----------------------------------------
 ;	 function WriteData
 ;	-----------------------------------------
@@ -2224,38 +2229,38 @@ _WriteData:
 	mov	a,dpl
 	mov	dptr,#_WriteData_inputData_1_1
 	movx	@dptr,a
-	C$main.c$155$1$1 ==.
-;main.c:155: CONTROL_PORT |= (1<<RDL);
+	C$main.c$158$1$1 ==.
+;main.c:158: CONTROL_PORT |= (1<<RDL);
 ;     genOr
 	orl	_P2,#0x08
-	C$main.c$156$1$1 ==.
-;main.c:156: CONTROL_PORT &= ~(1<<CDL);
+	C$main.c$159$1$1 ==.
+;main.c:159: CONTROL_PORT &= ~(1<<CDL);
 ;     genAnd
-	C$main.c$157$1$1 ==.
-;main.c:157: CONTROL_PORT &= ~((1<<CEL) | (1<<WRL));
+	C$main.c$160$1$1 ==.
+;main.c:160: CONTROL_PORT &= ~((1<<CEL) | (1<<WRL));
 ;     genAnd
 ;	Peephole 183	avoided anl during execution
 	anl	_P2,#(0xDF & 0xEB)
-	C$main.c$158$1$1 ==.
-;main.c:158: lcdData = inputData;
+	C$main.c$161$1$1 ==.
+;main.c:161: lcdData = inputData;
 ;     genAssign
 	mov	dptr,#_WriteData_inputData_1_1
 	movx	a,@dptr
 	mov	_P1,a
-	C$main.c$159$1$1 ==.
-;main.c:159: CONTROL_PORT |= ((1<<CEL) | (1<<WRL));
+	C$main.c$162$1$1 ==.
+;main.c:162: CONTROL_PORT |= ((1<<CEL) | (1<<WRL));
 ;     genOr
 	orl	_P2,#0x14
-	C$main.c$160$1$1 ==.
-;main.c:160: CONTROL_PORT |= (1<<CDL);
+	C$main.c$163$1$1 ==.
+;main.c:163: CONTROL_PORT |= (1<<CDL);
 ;     genOr
 	orl	_P2,#0x20
-	C$main.c$161$1$1 ==.
-;main.c:161: delay(1);
+	C$main.c$164$1$1 ==.
+;main.c:164: delay(1);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0001
-	C$main.c$162$1$1 ==.
+	C$main.c$165$1$1 ==.
 	XG$WriteData$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_delay
@@ -2265,14 +2270,14 @@ _WriteData:
 ;temp                      Allocated with name '_ReadData_temp_1_1'
 ;------------------------------------------------------------
 	G$ReadData$0$0 ==.
-	C$main.c$165$1$1 ==.
-;main.c:165: unsigned char ReadData() {
+	C$main.c$168$1$1 ==.
+;main.c:168: unsigned char ReadData() {
 ;	-----------------------------------------
 ;	 function ReadData
 ;	-----------------------------------------
 _ReadData:
-	C$main.c$167$1$1 ==.
-;main.c:167: while(!(CheckStatus() & 0x03));
+	C$main.c$170$1$1 ==.
+;main.c:170: while(!(CheckStatus() & 0x03));
 00101$:
 ;     genCall
 	lcall	_CheckStatus
@@ -2282,39 +2287,39 @@ _ReadData:
 ;	Peephole 110	removed ljmp by inverse jump logic
 	jz	00101$
 00108$:
-	C$main.c$168$1$1 ==.
-;main.c:168: CONTROL_PORT |= (1<<WRL);
+	C$main.c$171$1$1 ==.
+;main.c:171: CONTROL_PORT |= (1<<WRL);
 ;     genOr
 	orl	_P2,#0x04
-	C$main.c$169$1$1 ==.
-;main.c:169: CONTROL_PORT &= ~(1<<CDL);
+	C$main.c$172$1$1 ==.
+;main.c:172: CONTROL_PORT &= ~(1<<CDL);
 ;     genAnd
-	C$main.c$170$1$1 ==.
-;main.c:170: CONTROL_PORT &= ~((1<<CEL) | (1<<RDL));
+	C$main.c$173$1$1 ==.
+;main.c:173: CONTROL_PORT &= ~((1<<CEL) | (1<<RDL));
 ;     genAnd
 ;	Peephole 183	avoided anl during execution
 	anl	_P2,#(0xDF & 0xE7)
-	C$main.c$171$1$1 ==.
-;main.c:171: temp = lcdData;
+	C$main.c$174$1$1 ==.
+;main.c:174: temp = lcdData;
 ;     genAssign
 	mov	dptr,#_ReadData_temp_1_1
 	mov	a,_P1
 	movx	@dptr,a
-	C$main.c$172$1$1 ==.
-;main.c:172: CONTROL_PORT |= ((1<<CEL) | (1<<RDL));
+	C$main.c$175$1$1 ==.
+;main.c:175: CONTROL_PORT |= ((1<<CEL) | (1<<RDL));
 ;     genOr
 	orl	_P2,#0x18
-	C$main.c$173$1$1 ==.
-;main.c:173: CONTROL_PORT |= (1<<CDL);
+	C$main.c$176$1$1 ==.
+;main.c:176: CONTROL_PORT |= (1<<CDL);
 ;     genOr
 	orl	_P2,#0x20
-	C$main.c$174$1$1 ==.
-;main.c:174: return temp; 
+	C$main.c$177$1$1 ==.
+;main.c:177: return temp; 
 ;     genAssign
 	mov	dptr,#_ReadData_temp_1_1
 	movx	a,@dptr
 ;     genRet
-	C$main.c$175$1$1 ==.
+	C$main.c$178$1$1 ==.
 	XG$ReadData$0$0 ==.
 ;	Peephole 234	loading dpl directly from a(ccumulator), r2 not set
 	mov	dpl,a
@@ -2326,8 +2331,8 @@ _ReadData:
 ;commandD                  Allocated with name '_WriteCommand_commandD_1_1'
 ;------------------------------------------------------------
 	G$WriteCommand$0$0 ==.
-	C$main.c$176$1$1 ==.
-;main.c:176: void WriteCommand(unsigned char commandD){
+	C$main.c$179$1$1 ==.
+;main.c:179: void WriteCommand(unsigned char commandD){
 ;	-----------------------------------------
 ;	 function WriteCommand
 ;	-----------------------------------------
@@ -2336,38 +2341,38 @@ _WriteCommand:
 	mov	a,dpl
 	mov	dptr,#_WriteCommand_commandD_1_1
 	movx	@dptr,a
-	C$main.c$178$1$1 ==.
-;main.c:178: CONTROL_PORT |= (1<<RDL);
+	C$main.c$181$1$1 ==.
+;main.c:181: CONTROL_PORT |= (1<<RDL);
 ;     genOr
 	orl	_P2,#0x08
-	C$main.c$179$1$1 ==.
-;main.c:179: CONTROL_PORT |= (1<<CDL);
+	C$main.c$182$1$1 ==.
+;main.c:182: CONTROL_PORT |= (1<<CDL);
 ;     genOr
 	orl	_P2,#0x20
-	C$main.c$180$1$1 ==.
-;main.c:180: CONTROL_PORT &= ~((1<<CEL) | (1<<WRL));
+	C$main.c$183$1$1 ==.
+;main.c:183: CONTROL_PORT &= ~((1<<CEL) | (1<<WRL));
 ;     genAnd
 	anl	_P2,#0xEB
-	C$main.c$181$1$1 ==.
-;main.c:181: lcdData = commandD;
+	C$main.c$184$1$1 ==.
+;main.c:184: lcdData = commandD;
 ;     genAssign
 	mov	dptr,#_WriteCommand_commandD_1_1
 	movx	a,@dptr
 	mov	_P1,a
-	C$main.c$182$1$1 ==.
-;main.c:182: CONTROL_PORT |= ((1<<CEL) | (1<<WRL));
+	C$main.c$185$1$1 ==.
+;main.c:185: CONTROL_PORT |= ((1<<CEL) | (1<<WRL));
 ;     genOr
 	orl	_P2,#0x14
-	C$main.c$183$1$1 ==.
-;main.c:183: CONTROL_PORT &= ~(1<<CDL);
+	C$main.c$186$1$1 ==.
+;main.c:186: CONTROL_PORT &= ~(1<<CDL);
 ;     genAnd
 	anl	_P2,#0xDF
-	C$main.c$184$1$1 ==.
-;main.c:184: delay(1);
+	C$main.c$187$1$1 ==.
+;main.c:187: delay(1);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0001
-	C$main.c$185$1$1 ==.
+	C$main.c$188$1$1 ==.
 	XG$WriteCommand$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_delay
@@ -2377,51 +2382,51 @@ _WriteCommand:
 ;temp                      Allocated with name '_CheckStatus_temp_1_1'
 ;------------------------------------------------------------
 	G$CheckStatus$0$0 ==.
-	C$main.c$187$1$1 ==.
-;main.c:187: unsigned char CheckStatus() {
+	C$main.c$190$1$1 ==.
+;main.c:190: unsigned char CheckStatus() {
 ;	-----------------------------------------
 ;	 function CheckStatus
 ;	-----------------------------------------
 _CheckStatus:
-	C$main.c$189$1$1 ==.
-;main.c:189: CONTROL_PORT |= (1<<WRL);
+	C$main.c$192$1$1 ==.
+;main.c:192: CONTROL_PORT |= (1<<WRL);
 ;     genOr
 	orl	_P2,#0x04
-	C$main.c$190$1$1 ==.
-;main.c:190: CONTROL_PORT |= (1<<CDL);
+	C$main.c$193$1$1 ==.
+;main.c:193: CONTROL_PORT |= (1<<CDL);
 ;     genOr
 	orl	_P2,#0x20
-	C$main.c$191$1$1 ==.
-;main.c:191: CONTROL_PORT &= ~((1<<CEL) | (1<<RDL));
+	C$main.c$194$1$1 ==.
+;main.c:194: CONTROL_PORT &= ~((1<<CEL) | (1<<RDL));
 ;     genAnd
 	anl	_P2,#0xE7
-	C$main.c$192$1$1 ==.
-;main.c:192: delay(2);
+	C$main.c$195$1$1 ==.
+;main.c:195: delay(2);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0002
 	lcall	_delay
-	C$main.c$193$1$1 ==.
-;main.c:193: temp = lcdData;
+	C$main.c$196$1$1 ==.
+;main.c:196: temp = lcdData;
 ;     genAssign
 	mov	dptr,#_CheckStatus_temp_1_1
 	mov	a,_P1
 	movx	@dptr,a
-	C$main.c$194$1$1 ==.
-;main.c:194: CONTROL_PORT |= ((1<<CEL) | (1<<RDL));
+	C$main.c$197$1$1 ==.
+;main.c:197: CONTROL_PORT |= ((1<<CEL) | (1<<RDL));
 ;     genOr
 	orl	_P2,#0x18
-	C$main.c$195$1$1 ==.
-;main.c:195: CONTROL_PORT &= ~(1<<CDL);
+	C$main.c$198$1$1 ==.
+;main.c:198: CONTROL_PORT &= ~(1<<CDL);
 ;     genAnd
 	anl	_P2,#0xDF
-	C$main.c$196$1$1 ==.
-;main.c:196: return temp;
+	C$main.c$199$1$1 ==.
+;main.c:199: return temp;
 ;     genAssign
 	mov	dptr,#_CheckStatus_temp_1_1
 	movx	a,@dptr
 ;     genRet
-	C$main.c$197$1$1 ==.
+	C$main.c$200$1$1 ==.
 	XG$CheckStatus$0$0 ==.
 ;	Peephole 234	loading dpl directly from a(ccumulator), r2 not set
 	mov	dpl,a
@@ -2433,8 +2438,8 @@ _CheckStatus:
 ;x                         Allocated with name '_WriteDisplayData_x_1_1'
 ;------------------------------------------------------------
 	G$WriteDisplayData$0$0 ==.
-	C$main.c$201$1$1 ==.
-;main.c:201: void WriteDisplayData(unsigned char x)
+	C$main.c$204$1$1 ==.
+;main.c:204: void WriteDisplayData(unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteDisplayData
 ;	-----------------------------------------
@@ -2443,8 +2448,8 @@ _WriteDisplayData:
 	mov	a,dpl
 	mov	dptr,#_WriteDisplayData_x_1_1
 	movx	@dptr,a
-	C$main.c$203$1$1 ==.
-;main.c:203: WriteData(x);
+	C$main.c$206$1$1 ==.
+;main.c:206: WriteData(x);
 ;     genAssign
 	mov	dptr,#_WriteDisplayData_x_1_1
 	movx	a,@dptr
@@ -2453,11 +2458,11 @@ _WriteDisplayData:
 	mov	r2,a
 	mov	dpl,a
 	lcall	_WriteData
-	C$main.c$204$1$1 ==.
-;main.c:204: WriteCommand(DATA_WRITE_AND_INCREMENT);
+	C$main.c$207$1$1 ==.
+;main.c:207: WriteCommand(DATA_WRITE_AND_INCREMENT);
 ;     genCall
 	mov	dpl,#0xC0
-	C$main.c$205$1$1 ==.
+	C$main.c$208$1$1 ==.
 	XG$WriteDisplayData$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand
@@ -2467,8 +2472,8 @@ _WriteDisplayData:
 ;address                   Allocated with name '_SetAddressPointer_address_1_1'
 ;------------------------------------------------------------
 	G$SetAddressPointer$0$0 ==.
-	C$main.c$207$1$1 ==.
-;main.c:207: void SetAddressPointer(unsigned int address)
+	C$main.c$210$1$1 ==.
+;main.c:210: void SetAddressPointer(unsigned int address)
 ;	-----------------------------------------
 ;	 function SetAddressPointer
 ;	-----------------------------------------
@@ -2481,8 +2486,8 @@ _SetAddressPointer:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$main.c$209$1$1 ==.
-;main.c:209: WriteData(address & 0xFF);
+	C$main.c$212$1$1 ==.
+;main.c:212: WriteData(address & 0xFF);
 ;     genAssign
 	mov	dptr,#_SetAddressPointer_address_1_1
 	movx	a,@dptr
@@ -2501,8 +2506,8 @@ _SetAddressPointer:
 	lcall	_WriteData
 	pop	ar3
 	pop	ar2
-	C$main.c$210$1$1 ==.
-;main.c:210: WriteData(address >> 8);
+	C$main.c$213$1$1 ==.
+;main.c:213: WriteData(address >> 8);
 ;     genRightShift
 ;     genRightShiftLiteral
 ;     genrshTwo
@@ -2512,11 +2517,11 @@ _SetAddressPointer:
 ;     genCall
 	mov	dpl,r2
 	lcall	_WriteData
-	C$main.c$211$1$1 ==.
-;main.c:211: WriteCommand(0x24);
+	C$main.c$214$1$1 ==.
+;main.c:214: WriteCommand(0x24);
 ;     genCall
 	mov	dpl,#0x24
-	C$main.c$212$1$1 ==.
+	C$main.c$215$1$1 ==.
 	XG$SetAddressPointer$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand
@@ -2526,35 +2531,35 @@ _SetAddressPointer:
 ;counter                   Allocated with name '_clearScreen_counter_1_1'
 ;------------------------------------------------------------
 	G$clearScreen$0$0 ==.
-	C$main.c$213$1$1 ==.
-;main.c:213: void clearScreen() {
+	C$main.c$216$1$1 ==.
+;main.c:216: void clearScreen() {
 ;	-----------------------------------------
 ;	 function clearScreen
 ;	-----------------------------------------
 _clearScreen:
-	C$main.c$215$1$1 ==.
-;main.c:215: P0 = 0x01;
+	C$main.c$218$1$1 ==.
+;main.c:218: P0 = 0x01;
 ;     genAssign
 	mov	_P0,#0x01
-	C$main.c$216$1$1 ==.
-;main.c:216: SetAddressPointer(0x0000);
+	C$main.c$219$1$1 ==.
+;main.c:219: SetAddressPointer(0x0000);
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_SetAddressPointer
-	C$main.c$217$1$1 ==.
-;main.c:217: WriteCommand(0xB0);
+	C$main.c$220$1$1 ==.
+;main.c:220: WriteCommand(0xB0);
 ;     genCall
 	mov	dpl,#0xB0
 	lcall	_WriteCommand
-	C$main.c$218$1$1 ==.
-;main.c:218: for (counter = 0; counter < 2560; counter++) 
+	C$main.c$221$1$1 ==.
+;main.c:221: for (counter = 0; counter < 2560; counter++) 
 ;     genAssign
 	mov	r2,#0x00
 	mov	r3,#0x0A
 00103$:
-	C$main.c$220$2$2 ==.
-;main.c:220: WriteData(0);
+	C$main.c$223$2$2 ==.
+;main.c:223: WriteData(0);
 ;     genCall
 	mov	dpl,#0x00
 	push	ar2
@@ -2569,8 +2574,8 @@ _clearScreen:
 	cjne	r2,#0xff,00108$
 	dec	r3
 00108$:
-	C$main.c$218$2$2 ==.
-;main.c:218: for (counter = 0; counter < 2560; counter++) 
+	C$main.c$221$2$2 ==.
+;main.c:221: for (counter = 0; counter < 2560; counter++) 
 ;     genIfx
 	mov	a,r2
 	orl	a,r3
@@ -2578,11 +2583,11 @@ _clearScreen:
 ;	Peephole 109	removed ljmp by inverse jump logic
 	jnz	00103$
 00109$:
-	C$main.c$222$1$1 ==.
-;main.c:222: WriteCommand(0xB2);
+	C$main.c$225$1$1 ==.
+;main.c:225: WriteCommand(0xB2);
 ;     genCall
 	mov	dpl,#0xB2
-	C$main.c$224$1$1 ==.
+	C$main.c$227$1$1 ==.
 	XG$clearScreen$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand
@@ -2597,8 +2602,8 @@ _clearScreen:
 ;tmp                       Allocated with name '_SetLCDPixelAXIS_tmp_1_1'
 ;------------------------------------------------------------
 	G$SetLCDPixelAXIS$0$0 ==.
-	C$main.c$226$1$1 ==.
-;main.c:226: void SetLCDPixelAXIS(float x, float y)
+	C$main.c$229$1$1 ==.
+;main.c:229: void SetLCDPixelAXIS(float x, float y)
 ;	-----------------------------------------
 ;	 function SetLCDPixelAXIS
 ;	-----------------------------------------
@@ -2620,8 +2625,8 @@ _SetLCDPixelAXIS:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-	C$main.c$233$1$1 ==.
-;main.c:233: Truex = x + 79;
+	C$main.c$236$1$1 ==.
+;main.c:236: Truex = x + 79;
 ;     genAssign
 	mov	dptr,#_SetLCDPixelAXIS_x_1_1
 	movx	a,@dptr
@@ -2667,8 +2672,8 @@ _SetLCDPixelAXIS:
 	lcall	___fs2sint
 	mov	r2,dpl
 	mov	r3,dph
-	C$main.c$234$1$1 ==.
-;main.c:234: Truey = 63 - y;
+	C$main.c$237$1$1 ==.
+;main.c:237: Truey = 63 - y;
 ;     genIpush
 	push	ar2
 	push	ar3
@@ -2711,8 +2716,8 @@ _SetLCDPixelAXIS:
 	mov	r5,dph
 	pop	ar3
 	pop	ar2
-	C$main.c$236$1$1 ==.
-;main.c:236: addr = 0x0000 + (Truex / 8) + (0x14 * Truey);
+	C$main.c$239$1$1 ==.
+;main.c:239: addr = 0x0000 + (Truex / 8) + (0x14 * Truey);
 ;     genAssign
 	mov	dptr,#__divsint_PARM_2
 	mov	a,#0x08
@@ -2766,8 +2771,8 @@ _SetLCDPixelAXIS:
 ;	Peephole 236.b	used r7 instead of ar7
 	addc	a,r7
 	mov	r7,a
-	C$main.c$237$1$1 ==.
-;main.c:237: WriteData(addr & 0xFF);
+	C$main.c$240$1$1 ==.
+;main.c:240: WriteData(addr & 0xFF);
 ;     genAnd
 	mov	ar4,r6
 	mov	r5,#0x00
@@ -2783,8 +2788,8 @@ _SetLCDPixelAXIS:
 	pop	ar6
 	pop	ar3
 	pop	ar2
-	C$main.c$238$1$1 ==.
-;main.c:238: WriteData(addr >> 8);
+	C$main.c$241$1$1 ==.
+;main.c:241: WriteData(addr >> 8);
 ;     genAssign
 ;     genRightShift
 ;     genRightShiftLiteral
@@ -2799,8 +2804,8 @@ _SetLCDPixelAXIS:
 	lcall	_WriteData
 	pop	ar3
 	pop	ar2
-	C$main.c$239$1$1 ==.
-;main.c:239: WriteCommand(0x24);
+	C$main.c$242$1$1 ==.
+;main.c:242: WriteCommand(0x24);
 ;     genCall
 	mov	dpl,#0x24
 	push	ar2
@@ -2808,8 +2813,8 @@ _SetLCDPixelAXIS:
 	lcall	_WriteCommand
 	pop	ar3
 	pop	ar2
-	C$main.c$240$1$1 ==.
-;main.c:240: tmp |= (1 <<  (8 - 1 - (Truex % 8)));
+	C$main.c$243$1$1 ==.
+;main.c:243: tmp |= (1 <<  (8 - 1 - (Truex % 8)));
 ;     genAssign
 	mov	dptr,#__modsint_PARM_2
 	mov	a,#0x08
@@ -2851,16 +2856,16 @@ _SetLCDPixelAXIS:
 00104$:
 	djnz	b,00103$
 ;     genCast
-	C$main.c$241$1$1 ==.
-;main.c:241: WriteData(tmp);
+	C$main.c$244$1$1 ==.
+;main.c:244: WriteData(tmp);
 ;     genCall
 	mov	dpl,r2
 	lcall	_WriteData
-	C$main.c$242$1$1 ==.
-;main.c:242: WriteCommand(DATA_WRITE_AND_INCREMENT);
+	C$main.c$245$1$1 ==.
+;main.c:245: WriteCommand(DATA_WRITE_AND_INCREMENT);
 ;     genCall
 	mov	dpl,#0xC0
-	C$main.c$243$1$1 ==.
+	C$main.c$246$1$1 ==.
 	XG$SetLCDPixelAXIS$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand
@@ -2875,8 +2880,8 @@ _SetLCDPixelAXIS:
 ;tmp                       Allocated with name '_ClearLCDPixelAXIS_tmp_1_1'
 ;------------------------------------------------------------
 	G$ClearLCDPixelAXIS$0$0 ==.
-	C$main.c$245$1$1 ==.
-;main.c:245: void ClearLCDPixelAXIS(float x, float y)
+	C$main.c$248$1$1 ==.
+;main.c:248: void ClearLCDPixelAXIS(float x, float y)
 ;	-----------------------------------------
 ;	 function ClearLCDPixelAXIS
 ;	-----------------------------------------
@@ -2898,8 +2903,8 @@ _ClearLCDPixelAXIS:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-	C$main.c$251$1$1 ==.
-;main.c:251: Truex = x;
+	C$main.c$254$1$1 ==.
+;main.c:254: Truex = x;
 ;     genAssign
 	mov	dptr,#_ClearLCDPixelAXIS_x_1_1
 	movx	a,@dptr
@@ -2921,8 +2926,8 @@ _ClearLCDPixelAXIS:
 	lcall	___fs2uint
 	mov	r2,dpl
 	mov	r3,dph
-	C$main.c$252$1$1 ==.
-;main.c:252: Truey = y;
+	C$main.c$255$1$1 ==.
+;main.c:255: Truey = y;
 ;     genAssign
 	mov	dptr,#_ClearLCDPixelAXIS_PARM_2
 	movx	a,@dptr
@@ -2948,8 +2953,8 @@ _ClearLCDPixelAXIS:
 	mov	r5,dph
 	pop	ar3
 	pop	ar2
-	C$main.c$254$1$1 ==.
-;main.c:254: Truex += 80;
+	C$main.c$257$1$1 ==.
+;main.c:257: Truex += 80;
 ;     genPlus
 	mov	a,#0x50
 ;	Peephole 236.a	used r2 instead of ar2
@@ -2960,8 +2965,8 @@ _ClearLCDPixelAXIS:
 ;	Peephole 236.b	used r3 instead of ar3
 	addc	a,r3
 	mov	r3,a
-	C$main.c$255$1$1 ==.
-;main.c:255: Truey = 64 - Truey;
+	C$main.c$258$1$1 ==.
+;main.c:258: Truey = 64 - Truey;
 ;     genMinus
 	mov	a,#0x40
 	clr	c
@@ -2973,8 +2978,8 @@ _ClearLCDPixelAXIS:
 ;	Peephole 236.l	used r5 instead of ar5
 	subb	a,r5
 	mov	r5,a
-	C$main.c$264$1$1 ==.
-;main.c:264: addr = 0x0000 + (Truex / 8) + (0x14 * Truey);
+	C$main.c$267$1$1 ==.
+;main.c:267: addr = 0x0000 + (Truex / 8) + (0x14 * Truey);
 ;     genRightShift
 ;     genRightShiftLiteral
 ;     genrshTwo
@@ -3020,8 +3025,8 @@ _ClearLCDPixelAXIS:
 ;	Peephole 236.b	used r3 instead of ar3
 	addc	a,r3
 	mov	r3,a
-	C$main.c$265$1$1 ==.
-;main.c:265: WriteData(addr & 0xFF);
+	C$main.c$268$1$1 ==.
+;main.c:268: WriteData(addr & 0xFF);
 ;     genAnd
 	mov	ar4,r2
 	mov	r5,#0x00
@@ -3033,8 +3038,8 @@ _ClearLCDPixelAXIS:
 	lcall	_WriteData
 	pop	ar3
 	pop	ar2
-	C$main.c$266$1$1 ==.
-;main.c:266: WriteData(addr >> 8);
+	C$main.c$269$1$1 ==.
+;main.c:269: WriteData(addr >> 8);
 ;     genAssign
 ;     genRightShift
 ;     genSignedRightShift
@@ -3049,21 +3054,21 @@ _ClearLCDPixelAXIS:
 ;     genCall
 	mov	dpl,r2
 	lcall	_WriteData
-	C$main.c$267$1$1 ==.
-;main.c:267: WriteCommand(0x24);
+	C$main.c$270$1$1 ==.
+;main.c:270: WriteCommand(0x24);
 ;     genCall
 	mov	dpl,#0x24
 	lcall	_WriteCommand
-	C$main.c$269$1$1 ==.
-;main.c:269: WriteData(tmp);
+	C$main.c$272$1$1 ==.
+;main.c:272: WriteData(tmp);
 ;     genCall
 	mov	dpl,#0x00
 	lcall	_WriteData
-	C$main.c$270$1$1 ==.
-;main.c:270: WriteCommand(DATA_WRITE_AND_INCREMENT);
+	C$main.c$273$1$1 ==.
+;main.c:273: WriteCommand(DATA_WRITE_AND_INCREMENT);
 ;     genCall
 	mov	dpl,#0xC0
-	C$main.c$271$1$1 ==.
+	C$main.c$274$1$1 ==.
 	XG$ClearLCDPixelAXIS$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand
@@ -3077,8 +3082,8 @@ _ClearLCDPixelAXIS:
 ;tmp                       Allocated with name '_setLCDPixel_tmp_1_1'
 ;------------------------------------------------------------
 	G$setLCDPixel$0$0 ==.
-	C$main.c$272$1$1 ==.
-;main.c:272: void setLCDPixel(int x , int y,int line) {
+	C$main.c$275$1$1 ==.
+;main.c:275: void setLCDPixel(int x , int y,int line) {
 ;	-----------------------------------------
 ;	 function setLCDPixel
 ;	-----------------------------------------
@@ -3091,8 +3096,8 @@ _setLCDPixel:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$main.c$275$1$1 ==.
-;main.c:275: addr = 0x0000 + (x / 8) + (0x14 * y);
+	C$main.c$278$1$1 ==.
+;main.c:278: addr = 0x0000 + (x / 8) + (0x14 * y);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_x_1_1
 	movx	a,@dptr
@@ -3156,8 +3161,8 @@ _setLCDPixel:
 ;	Peephole 236.b	used r5 instead of ar5
 	addc	a,r5
 	mov	r5,a
-	C$main.c$276$1$1 ==.
-;main.c:276: WriteData(addr & 0xFF);
+	C$main.c$279$1$1 ==.
+;main.c:279: WriteData(addr & 0xFF);
 ;     genAnd
 	mov	ar6,r4
 	mov	r7,#0x00
@@ -3173,8 +3178,8 @@ _setLCDPixel:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$main.c$277$1$1 ==.
-;main.c:277: WriteData(addr >> 8);
+	C$main.c$280$1$1 ==.
+;main.c:280: WriteData(addr >> 8);
 ;     genRightShift
 ;     genSignedRightShift
 ;     genRightShiftLiteral
@@ -3192,8 +3197,8 @@ _setLCDPixel:
 	lcall	_WriteData
 	pop	ar3
 	pop	ar2
-	C$main.c$278$1$1 ==.
-;main.c:278: WriteCommand(0x24);
+	C$main.c$281$1$1 ==.
+;main.c:281: WriteCommand(0x24);
 ;     genCall
 	mov	dpl,#0x24
 	push	ar2
@@ -3201,8 +3206,8 @@ _setLCDPixel:
 	lcall	_WriteCommand
 	pop	ar3
 	pop	ar2
-	C$main.c$279$1$1 ==.
-;main.c:279: tmp |= (1 <<  (8 - 1 - (x % 8)));
+	C$main.c$282$1$1 ==.
+;main.c:282: tmp |= (1 <<  (8 - 1 - (x % 8)));
 ;     genAssign
 	mov	dptr,#__modsint_PARM_2
 	mov	a,#0x08
@@ -3248,8 +3253,8 @@ _setLCDPixel:
 	mov	dptr,#_setLCDPixel_tmp_1_1
 	mov	a,r4
 	movx	@dptr,a
-	C$main.c$280$1$1 ==.
-;main.c:280: if(line == 1){
+	C$main.c$283$1$1 ==.
+;main.c:283: if(line == 1){
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_3
 	movx	a,@dptr
@@ -3265,8 +3270,8 @@ _setLCDPixel:
 ;00116$:
 ;	Peephole 200	removed redundant sjmp
 00117$:
-	C$main.c$281$2$2 ==.
-;main.c:281: if(x % 8 == 0)
+	C$main.c$284$2$2 ==.
+;main.c:284: if(x % 8 == 0)
 ;     genCmpEq
 ;	Peephole 112.b	changed ljmp to sjmp
 ;	Peephole 198	optimized misc jump sequence
@@ -3275,8 +3280,8 @@ _setLCDPixel:
 ;00118$:
 ;	Peephole 200	removed redundant sjmp
 00119$:
-	C$main.c$282$2$2 ==.
-;main.c:282: tmp |= 0x7f;
+	C$main.c$285$2$2 ==.
+;main.c:285: tmp |= 0x7f;
 ;     genOr
 	mov	dptr,#_setLCDPixel_tmp_1_1
 	mov	a,#0x7F
@@ -3285,8 +3290,8 @@ _setLCDPixel:
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00108$
 00102$:
-	C$main.c$284$2$2 ==.
-;main.c:284: tmp =0xff;
+	C$main.c$287$2$2 ==.
+;main.c:287: tmp =0xff;
 ;     genAssign
 	mov	dptr,#_setLCDPixel_tmp_1_1
 	mov	a,#0xFF
@@ -3294,8 +3299,8 @@ _setLCDPixel:
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00108$
 00107$:
-	C$main.c$287$1$1 ==.
-;main.c:287: else if(line == 2){
+	C$main.c$290$1$1 ==.
+;main.c:290: else if(line == 2){
 ;     genCmpEq
 ;	Peephole 112.b	changed ljmp to sjmp
 ;	Peephole 198	optimized misc jump sequence
@@ -3304,8 +3309,8 @@ _setLCDPixel:
 ;00120$:
 ;	Peephole 200	removed redundant sjmp
 00121$:
-	C$main.c$289$2$3 ==.
-;main.c:289: tmp |= (1 <<  (8 - 1 - (x % 8)));
+	C$main.c$292$2$3 ==.
+;main.c:292: tmp |= (1 <<  (8 - 1 - (x % 8)));
 ;     genMinus
 	mov	a,#0x07
 	clr	c
@@ -3340,8 +3345,8 @@ _setLCDPixel:
 	orl	a,r2
 	movx	@dptr,a
 00108$:
-	C$main.c$291$1$1 ==.
-;main.c:291: WriteData(tmp);
+	C$main.c$294$1$1 ==.
+;main.c:294: WriteData(tmp);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_tmp_1_1
 	movx	a,@dptr
@@ -3350,11 +3355,11 @@ _setLCDPixel:
 	mov	r2,a
 	mov	dpl,a
 	lcall	_WriteData
-	C$main.c$292$1$1 ==.
-;main.c:292: WriteCommand(DATA_WRITE_AND_INCREMENT);
+	C$main.c$295$1$1 ==.
+;main.c:295: WriteCommand(DATA_WRITE_AND_INCREMENT);
 ;     genCall
 	mov	dpl,#0xC0
-	C$main.c$293$1$1 ==.
+	C$main.c$296$1$1 ==.
 	XG$setLCDPixel$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand
@@ -3364,14 +3369,14 @@ _setLCDPixel:
 ;i                         Allocated with name '_CreateAxis_i_1_1'
 ;------------------------------------------------------------
 	G$CreateAxis$0$0 ==.
-	C$main.c$294$1$1 ==.
-;main.c:294: void CreateAxis() {
+	C$main.c$297$1$1 ==.
+;main.c:297: void CreateAxis() {
 ;	-----------------------------------------
 ;	 function CreateAxis
 ;	-----------------------------------------
 _CreateAxis:
-	C$main.c$296$1$1 ==.
-;main.c:296: for(i=0;i<128;i++)
+	C$main.c$299$1$1 ==.
+;main.c:299: for(i=0;i<128;i++)
 ;     genAssign
 	mov	r2,#0x00
 	mov	r3,#0x00
@@ -3388,8 +3393,8 @@ _CreateAxis:
 ;	Peephole 108	removed ljmp by inverse jump logic
 	jnc	00114$
 00115$:
-	C$main.c$297$1$1 ==.
-;main.c:297: setLCDPixel(159,i,0);
+	C$main.c$300$1$1 ==.
+;main.c:300: setLCDPixel(159,i,0);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,r2
@@ -3411,16 +3416,16 @@ _CreateAxis:
 	lcall	_setLCDPixel
 	pop	ar3
 	pop	ar2
-	C$main.c$296$1$1 ==.
-;main.c:296: for(i=0;i<128;i++)
+	C$main.c$299$1$1 ==.
+;main.c:299: for(i=0;i<128;i++)
 ;     genPlus
 ;     genPlusIncr
 ;	tail increment optimized
 	inc	r2
 	cjne	r2,#0x00,00101$
 	inc	r3
-	C$main.c$298$1$1 ==.
-;main.c:298: for(i=0;i<160;i++)
+	C$main.c$301$1$1 ==.
+;main.c:301: for(i=0;i<160;i++)
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00101$
 00114$:
@@ -3440,8 +3445,8 @@ _CreateAxis:
 ;	Peephole 108	removed ljmp by inverse jump logic
 	jnc	00108$
 00116$:
-	C$main.c$299$1$1 ==.
-;main.c:299: setLCDPixel(i,127,1);
+	C$main.c$302$1$1 ==.
+;main.c:302: setLCDPixel(i,127,1);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x7F
@@ -3464,8 +3469,8 @@ _CreateAxis:
 	lcall	_setLCDPixel
 	pop	ar3
 	pop	ar2
-	C$main.c$298$1$1 ==.
-;main.c:298: for(i=0;i<160;i++)
+	C$main.c$301$1$1 ==.
+;main.c:301: for(i=0;i<160;i++)
 ;     genPlus
 ;     genPlusIncr
 ;	tail increment optimized
@@ -3475,13 +3480,12 @@ _CreateAxis:
 ;	Peephole 112.b	changed ljmp to sjmp
 	sjmp	00105$
 00108$:
-	C$main.c$301$1$1 ==.
-;main.c:301: setLCDPixel(158,1,2);
+	C$main.c$304$1$1 ==.
+;main.c:304: setLCDPixel(158,0,2);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
 	clr	a
+	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
 ;     genAssign
@@ -3495,11 +3499,11 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x009E
 	lcall	_setLCDPixel
-	C$main.c$302$1$1 ==.
-;main.c:302: setLCDPixel(157,2,2);
+	C$main.c$305$1$1 ==.
+;main.c:305: setLCDPixel(157,1,2);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
-	mov	a,#0x02
+	mov	a,#0x01
 	movx	@dptr,a
 	clr	a
 	inc	dptr
@@ -3515,11 +3519,11 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x009D
 	lcall	_setLCDPixel
-	C$main.c$303$1$1 ==.
-;main.c:303: setLCDPixel(156,3,2);
+	C$main.c$306$1$1 ==.
+;main.c:306: setLCDPixel(156,2,2);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
-	mov	a,#0x03
+	mov	a,#0x02
 	movx	@dptr,a
 	clr	a
 	inc	dptr
@@ -3535,11 +3539,11 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x009C
 	lcall	_setLCDPixel
-	C$main.c$304$1$1 ==.
-;main.c:304: setLCDPixel(155,4,2);
+	C$main.c$307$1$1 ==.
+;main.c:307: setLCDPixel(155,3,2);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
-	mov	a,#0x04
+	mov	a,#0x03
 	movx	@dptr,a
 	clr	a
 	inc	dptr
@@ -3555,30 +3559,28 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x009B
 	lcall	_setLCDPixel
-	C$main.c$306$1$1 ==.
-;main.c:306: setLCDPixel(1,126,0);
-;     genAssign
-	mov	dptr,#_setLCDPixel_PARM_2
-	mov	a,#0x7E
-	movx	@dptr,a
-	clr	a
-	inc	dptr
-	movx	@dptr,a
-;     genAssign
-	mov	dptr,#_setLCDPixel_PARM_3
-	clr	a
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-;     genCall
-;	Peephole 182.b	used 16 bit load of dptr
-	mov	dptr,#0x0001
-	lcall	_setLCDPixel
-	C$main.c$307$1$1 ==.
-;main.c:307: bitMap(1,126,0x40);
+	C$main.c$309$1$1 ==.
+;main.c:309: bitMap(0,126,0x80);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
 	mov	a,#0x7E
+	movx	@dptr,a
+	clr	a
+	inc	dptr
+	movx	@dptr,a
+;     genAssign
+	mov	dptr,#_bitMap_PARM_3
+	mov	a,#0x80
+	movx	@dptr,a
+;     genCall
+;	Peephole 182.b	used 16 bit load of dptr
+	mov	dptr,#0x0000
+	lcall	_bitMap
+	C$main.c$310$1$1 ==.
+;main.c:310: bitMap(0,125,0x40);
+;     genAssign
+	mov	dptr,#_bitMap_PARM_2
+	mov	a,#0x7D
 	movx	@dptr,a
 	clr	a
 	inc	dptr
@@ -3589,13 +3591,13 @@ _CreateAxis:
 	movx	@dptr,a
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
-	mov	dptr,#0x0001
+	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$308$1$1 ==.
-;main.c:308: bitMap(1,125,0x20);
+	C$main.c$311$1$1 ==.
+;main.c:311: bitMap(0,124,0x20);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
-	mov	a,#0x7D
+	mov	a,#0x7C
 	movx	@dptr,a
 	clr	a
 	inc	dptr
@@ -3606,13 +3608,13 @@ _CreateAxis:
 	movx	@dptr,a
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
-	mov	dptr,#0x0001
+	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$309$1$1 ==.
-;main.c:309: bitMap(1,124,0x10);
+	C$main.c$312$1$1 ==.
+;main.c:312: bitMap(0,123,0x10);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_2
-	mov	a,#0x7C
+	mov	a,#0x7B
 	movx	@dptr,a
 	clr	a
 	inc	dptr
@@ -3623,10 +3625,10 @@ _CreateAxis:
 	movx	@dptr,a
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
-	mov	dptr,#0x0001
+	mov	dptr,#0x0000
 	lcall	_bitMap
-	C$main.c$311$1$1 ==.
-;main.c:311: setLCDPixel(0,0,1);
+	C$main.c$314$1$1 ==.
+;main.c:314: setLCDPixel(0,0,1);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	clr	a
@@ -3644,8 +3646,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_setLCDPixel
-	C$main.c$312$1$1 ==.
-;main.c:312: setLCDPixel(0,1,0);
+	C$main.c$315$1$1 ==.
+;main.c:315: setLCDPixel(0,1,0);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x01
@@ -3663,8 +3665,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_setLCDPixel
-	C$main.c$313$1$1 ==.
-;main.c:313: setLCDPixel(0,2,0);
+	C$main.c$316$1$1 ==.
+;main.c:316: setLCDPixel(0,2,0);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x02
@@ -3682,8 +3684,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_setLCDPixel
-	C$main.c$314$1$1 ==.
-;main.c:314: setLCDPixel(0,3,0);
+	C$main.c$317$1$1 ==.
+;main.c:317: setLCDPixel(0,3,0);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x03
@@ -3701,8 +3703,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_setLCDPixel
-	C$main.c$315$1$1 ==.
-;main.c:315: setLCDPixel(0,4,1);
+	C$main.c$318$1$1 ==.
+;main.c:318: setLCDPixel(0,4,1);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x04
@@ -3721,8 +3723,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
 	lcall	_setLCDPixel
-	C$main.c$316$1$1 ==.
-;main.c:316: setLCDPixel(7,5,0);
+	C$main.c$319$1$1 ==.
+;main.c:319: setLCDPixel(7,5,0);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x05
@@ -3740,8 +3742,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0007
 	lcall	_setLCDPixel
-	C$main.c$317$1$1 ==.
-;main.c:317: setLCDPixel(7,6,0);
+	C$main.c$320$1$1 ==.
+;main.c:320: setLCDPixel(7,6,0);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x06
@@ -3759,8 +3761,8 @@ _CreateAxis:
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0007
 	lcall	_setLCDPixel
-	C$main.c$318$1$1 ==.
-;main.c:318: setLCDPixel(0,7,1);
+	C$main.c$321$1$1 ==.
+;main.c:321: setLCDPixel(0,7,1);
 ;     genAssign
 	mov	dptr,#_setLCDPixel_PARM_2
 	mov	a,#0x07
@@ -3778,7 +3780,7 @@ _CreateAxis:
 ;     genCall
 ;	Peephole 182.b	used 16 bit load of dptr
 	mov	dptr,#0x0000
-	C$main.c$321$1$1 ==.
+	C$main.c$324$1$1 ==.
 	XG$CreateAxis$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_setLCDPixel
@@ -3791,8 +3793,8 @@ _CreateAxis:
 ;addr                      Allocated with name '_bitMap_addr_1_1'
 ;------------------------------------------------------------
 	G$bitMap$0$0 ==.
-	C$main.c$323$1$1 ==.
-;main.c:323: void bitMap(int x,int y,unsigned char tmp){
+	C$main.c$326$1$1 ==.
+;main.c:326: void bitMap(int x,int y,unsigned char tmp){
 ;	-----------------------------------------
 ;	 function bitMap
 ;	-----------------------------------------
@@ -3805,8 +3807,8 @@ _bitMap:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$main.c$325$1$1 ==.
-;main.c:325: addr = 0x0000 + (x / 8) + (0x14 * y);
+	C$main.c$328$1$1 ==.
+;main.c:328: addr = 0x0000 + (x / 8) + (0x14 * y);
 ;     genAssign
 	mov	dptr,#_bitMap_x_1_1
 	movx	a,@dptr
@@ -3862,8 +3864,8 @@ _bitMap:
 ;	Peephole 236.b	used r3 instead of ar3
 	addc	a,r3
 	mov	r3,a
-	C$main.c$326$1$1 ==.
-;main.c:326: WriteData(addr & 0xFF);
+	C$main.c$329$1$1 ==.
+;main.c:329: WriteData(addr & 0xFF);
 ;     genAnd
 	mov	ar4,r2
 	mov	r5,#0x00
@@ -3875,8 +3877,8 @@ _bitMap:
 	lcall	_WriteData
 	pop	ar3
 	pop	ar2
-	C$main.c$327$1$1 ==.
-;main.c:327: WriteData(addr >> 8);
+	C$main.c$330$1$1 ==.
+;main.c:330: WriteData(addr >> 8);
 ;     genAssign
 ;     genRightShift
 ;     genRightShiftLiteral
@@ -3887,13 +3889,13 @@ _bitMap:
 ;     genCall
 	mov	dpl,r2
 	lcall	_WriteData
-	C$main.c$328$1$1 ==.
-;main.c:328: WriteCommand(0x24);
+	C$main.c$331$1$1 ==.
+;main.c:331: WriteCommand(0x24);
 ;     genCall
 	mov	dpl,#0x24
 	lcall	_WriteCommand
-	C$main.c$329$1$1 ==.
-;main.c:329: WriteData(tmp);
+	C$main.c$332$1$1 ==.
+;main.c:332: WriteData(tmp);
 ;     genAssign
 	mov	dptr,#_bitMap_PARM_3
 	movx	a,@dptr
@@ -3902,11 +3904,11 @@ _bitMap:
 	mov	r2,a
 	mov	dpl,a
 	lcall	_WriteData
-	C$main.c$330$1$1 ==.
-;main.c:330: WriteCommand(DATA_WRITE_AND_INCREMENT);
+	C$main.c$333$1$1 ==.
+;main.c:333: WriteCommand(DATA_WRITE_AND_INCREMENT);
 ;     genCall
 	mov	dpl,#0xC0
-	C$main.c$331$1$1 ==.
+	C$main.c$334$1$1 ==.
 	XG$bitMap$0$0 ==.
 ;	Peephole 253.b	replaced lcall/ret with ljmp
 	ljmp	_WriteCommand

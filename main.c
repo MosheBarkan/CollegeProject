@@ -14,7 +14,7 @@ void t0(void) interrupt 1 {
 void main() {
 	float SX;
 	float SY;
-	P0=0x00;
+	P0=0;
 	delay(10);
 	SCON = 0x50;
 	TMOD |= 0x20;
@@ -34,6 +34,8 @@ void main() {
 	CreateAxis();
 	MOTORDIRECTION = 0;
 	delay(1000);
+	P0=0xff;
+	
 	while(numberOfScans < 2) {
 		counter = 0;
 		TH0 = 0;
@@ -51,7 +53,7 @@ void main() {
 		distances = distances / 95;
 		SX = distances * cosf(angle * PI / 180);
 		SY = distances * sinf(angle * PI / 180);
-		if(((SX >=0) && (SX <= 80) && ((SY >= -64) && (SY <=63)))) 
+		if(((SX >=-79) && (SX <= 80) && ((SY >= -64) && (SY <=63)))) 
 			SetLCDPixelAXIS(SX,SY);
 		clockMotor();
 	}
@@ -66,7 +68,7 @@ void main() {
 	bitMap(0,6,0xA0);
 	bitMap(0,7,0xC0);
 	while(1){
-		P0_1 = RD;
+		Trigger = 1;
 	}
 
 }
@@ -89,6 +91,7 @@ void clockMotor() {
 					MOTORDIRECTION = 0;
 					numberOfScans++;
 			}
+	delay(500);
 
 }
 void InitLCD(){
@@ -298,15 +301,15 @@ void CreateAxis() {
 	for(i=0;i<160;i++)
 		setLCDPixel(i,127,1);
 	
-	setLCDPixel(158,1,2);
-	setLCDPixel(157,2,2);
-	setLCDPixel(156,3,2);
-	setLCDPixel(155,4,2);
+	setLCDPixel(158,0,2);
+	setLCDPixel(157,1,2);
+	setLCDPixel(156,2,2);
+	setLCDPixel(155,3,2);
 	
-	setLCDPixel(1,126,0);
-	bitMap(1,126,0x40);
-	bitMap(1,125,0x20);
-	bitMap(1,124,0x10);
+	bitMap(0,126,0x80);
+	bitMap(0,125,0x40);
+	bitMap(0,124,0x20);
+	bitMap(0,123,0x10);
 	//S
 	setLCDPixel(0,0,1);
 	setLCDPixel(0,1,0);
